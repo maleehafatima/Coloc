@@ -39,7 +39,7 @@ Output files:<br />
 **Script 2**<br />
 This script takes in genotype dosage files in vcf file format and converts them to PLINK binary formats, .bed, .bim, and .fam. This step can be executed by calling script 2.<br />
         ```
-        chmod u+x 02_make_bed.sh \n
+        chmod u+x 02_make_bed.sh 
         ./02_make_bed.sh {pop} {path/to/directory/containing/population_folders_containing_dosage_files/}
         ```
 Input Files:<br />
@@ -51,10 +51,10 @@ Output Files:<br />
 
 **Script 3**<br />
 This script uses the significant SNP lists produced by script 1, along with the bfiles produced by script 2, to calculate LD matrices between every significant SNP around every predicted gene. This step can be executed by calling script 3.<br />
-        ```
-        chmod u+x 03_make_LD_matrix.sh
-        ./02_make_LD_matrix.sh {pop}
-        ```
+	```
+	chmod u+x 03_make_LD_matrix.sh
+	./02_make_LD_matrix.sh {pop}
+	```
 Input Files:<br />
 - output/LD_matrix/{pop}/{pop}_chr_{chrom}_{gene}_1Mb_of_gene.txt<br />
 - output/LD_matrix/{pop}/{pop}_chr{chrom}_dose.bed<br />

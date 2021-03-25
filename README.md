@@ -23,18 +23,18 @@ library(tibble)
 ---
 **Scripts 1a-c**<br />
 These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:<br />
-	```
-	chmod u+x 01c_run_chrom.sh
-	./01c_run_chrom.sh {path/to/SNP_annotation_file.txt} {path/to/gene_annotation_file.txt} {path/to/genotype_file.txt} {path/to/expression_file.txt} {list of population abbreviations}
-	#For any occurences of a population abbreviation or chromosome number in the file path, use "pop" and "chrom", respectively
-	```
+```
+chmod u+x 01c_run_chrom.sh
+./01c_run_chrom.sh {path/to/SNP_annotation_file.txt} {path/to/gene_annotation_file.txt} {path/to/genotype_file.txt} {path/to/expression_file.txt} {list of population abbreviations}
+#For any occurences of a population abbreviation or chromosome number in the file path, use "pop" and "chrom", respectively
+```
 Input Files:<br />
-- SNP annotation file<br />
-- Gene annotation file<br />
-- Genotype file<br />
-- Expression file<br />
+- SNP annotation file
+- Gene annotation file
+- Genotype file
+- Expression file
 Output files:<br />
-- output/LD_matrix/{pop}/{pop}_chr_{chrom}_{gene}_1Mb_of_gene.txt<br />
+- output/LD_matrix/{pop}/{pop}_chr_{chrom}_{gene}_1Mb_of_gene.txt
 
 **Script 2**<br />
 This script takes in genotype dosage files in vcf file format and converts them to PLINK binary formats, .bed, .bim, and .fam. This step can be executed by calling script 2.<br />

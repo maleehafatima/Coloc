@@ -88,7 +88,7 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
     
     print(cis_gt)
     if(length(cis_gt) > 2){
-    	write.table(cis_gt, paste('/output/LD_matrices/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
+    	write.table(cis_gt, paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
     }
   }
 }

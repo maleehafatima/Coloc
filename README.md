@@ -21,8 +21,7 @@ library(tibble)
 
 ## Workflow ##
 ---
-<pre>
-**Scripts 1a-c**   
+**Scripts 1a-c**<br />
 These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:   
 	```
 	chmod u+x 01c_run_chrom.sh   
@@ -64,4 +63,3 @@ Input Files:
 Output Files:
 - output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.ld.gz
 - output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.snplist.gz
-</pre>

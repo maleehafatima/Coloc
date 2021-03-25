@@ -28,12 +28,12 @@ chmod u+x 01c_run_chrom.sh
 ./01c_run_chrom.sh {path/to/SNP_annotation_file.txt} {path/to/gene_annotation_file.txt} {path/to/genotype_file.txt} {path/to/expression_file.txt} {list of population abbreviations}
 #For any occurences of a population abbreviation or chromosome number in the file path, use "pop" and "chrom", respectively
 ```
-Input Files:<br />
+***Input Files:***<br />
 - SNP annotation file
 - Gene annotation file
 - Genotype file
 - Expression file
-Output files:<br />
+***Output files:***<br />
 - output/LD_matrix/{pop}/{pop}_chr_{chrom}_{gene}_1Mb_of_gene.txt
 
 **Script 2**<br />

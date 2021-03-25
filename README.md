@@ -21,10 +21,10 @@ library(tibble)
 
 ## Workflow ##
 ---
-**Scripts 1a-c**
-These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:
+**Scripts 1a-c**   
+These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:   
 	```
-	chmod u+x 01c_run_chrom.sh
+	chmod u+x 01c_run_chrom.sh   
 	./01c_run_chrom.sh {path/to/SNP_annotation_file.txt} {path/to/gene_annotation_file.txt} {path/to/genotype_file.txt} {path/to/expression_file.txt} {list of population abbreviations}
 	#For any occurences of a population abbreviation or chromosome number in the file path, use "pop" and "chrom", respectively
 	```

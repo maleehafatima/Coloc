@@ -9,6 +9,7 @@ suppressMessages(library(tidyr))
 suppressMessages(library(tibble))
 
 "%&%" <- function(a,b) paste(a,b, sep = "") 
+#Shortened notation for concatenating strings
 
 get_gene_expression <- function(gene_expression_file_name, gene_annot) { #row are obs, columns are features
   expr_df <- as.data.frame(t(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = 1)))
@@ -87,7 +88,7 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
     
     print(cis_gt)
     if(length(cis_gt) > 2){
-    	write.table(cis_gt, paste('/home/egeoffroy/LD_matrix/1Mb_of_gene_coords/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
+    	write.table(cis_gt, paste('/output/LD_matrices/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
     }
   }
 }

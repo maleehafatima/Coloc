@@ -27,7 +27,7 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
         frq <- frq %>% dplyr::select(SNP, MAF)
         
         ## MAKE GWAS_write DF
-        GWAS_result <- fread(paste(wd, "GWAS_SS/WojcikG_", pheno, ".txt.gz", sep = '') , header = T)
+        GWAS_result <- fread(paste(wd, "input/GWAS_SS/WojcikG_", pheno, ".txt.gz", sep = '') , header = T)
         #reformat chr_pos column
         GWAS_result$chr_pos <- paste(gsub("chr", "", GWAS_result$chromosome), GWAS_result$base_pair_location, sep = ":")
         #Filter & rename necessary columns for formatted GWAS DF
@@ -67,13 +67,13 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
         ## Write out & gzip formatted pQTL file
         fwrite(unique(pQTL_write), wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", 
                quote = F, sep = "\t", na = "NA", row.names = F, col.names = T)
-        gzip(wd %&% "Outputs/pQTL_" %&% pops[pop] %&% "_" %&% pheno %&% ".txt", 
+        gzip(wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pops[pop] %&% "_" %&% pheno %&% ".txt", 
              destname = wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")         
         
         ## Write out & gzip formatted GWAS file
         fwrite(unique(GWAS_write), wd %&% "output/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt", 
                row.names = F, col.names = T, sep = "\t", quote = F, na = "NA")
-        gzip(wd %&% "Outputs/GWAS_TOPMED" %&% pops %&% "_" %&% pheno %&% ".txt", 
+        gzip(wd %&% "output/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pops %&% "_" %&% pheno %&% ".txt", 
              destname = wd %&% "output/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")
         print("Completed with " %&% pop %&% ", for " %&% pheno %&% ".")
         

@@ -63,3 +63,23 @@ chmod u+x 03_make_LD_matrix.sh
 #### Output Files: ####
 - output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.ld.gz
 - output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.snplist.gz
+
+### Script 4 ###
+This script takes the GWAS summary statistics, eQTL, and .frq files input by the user and formats them properly in preparation of COLOC analysis.
+#### Input Files: ####
+- input/{pop}_prot_hg38.frq
+- input/GWAS_SS/WojcikG_{phenotype}.txt.gz
+- input/cis_eQTLs_{pop}_WG_all_cis.txt.gz
+#### Output Files: ####
+- output/pQTL/{pop}/pQTL_{pop}_{phenotype}.txt.gz
+- output/GWAS_TOPMED/{pop}/GWAS_TOPMED_{pop}_{phenotype}.txt.gz
+
+### Scripts 5a-b ###
+These scripts take the input arguments from the user and run COLOC analysis for each population and phenotype specified by the user using the outputs from scripts 3 and 4. A summary table of the COLOC reults are written to an outfile.
+#### Input Files: ####
+- output/pQTL/{pop}/pQTL_{pop}_{phenotype}.txt.gz
+- output/GWAS_TOPMED/{pop}/GWAS_TOPMED_{pop}_{phenotype}.txt.gz
+- output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.ld.gz
+- output/LD_matrix/{pop}/{pop}_1Mb_coords_LDMatrix/{pop}_chr_{chrom}_{gene}_1Mb_LD.snplist.gz
+#### Output Files: ####
+- output/Coloc_output/{pop}_{phenotype}.txt

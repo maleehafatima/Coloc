@@ -1,60 +1,68 @@
 library(dplyr)
 library(data.table)
-source('/home/rschubert1/scratch/test_coloc_for_elyse/05_coloc.R')
+
+#Get & set working directory
+wd <- getwd()
+wd <- paste(wd,'/',sep='')
+
+#Uses 05_coloc script to run coloc analysis
+source(paste(wd,'05_coloc.R',sep=''))
 
 "%&%" = function(a,b) paste(a,b,sep="")
 
 #Note: should have an input list of the genes to test in which populations and which chrom they are on?
 
-coloc_analysis <- function(gene_id=NULL, pop=NULL, pop_size=NULL, phenotype=NULL){
-	gene <- gsub("\\..*","",gene_id)
-	print(gene)
-	rds<-'/home/rschubert1/scratch/test_coloc_for_elyse/coloc/gene_list_' %&% pop %&% "_" %&% phenotype %&% ".RDS"
-  saveRDS(gene_id,rds )
-	eqtl <- paste('/home/egeoffroy/LD_matrix/coloc/pQTL_', pop, '_', phenotype, '.txt.gz', sep = '')
-	gwas <- paste('/home/egeoffroy/LD_matrix/coloc/GWAS_TOPMED', pop, '_', phenotype, '.txt.gz', sep = '')
-	
-	#check if eqtl & gwas files exist
-	if(!file.exists(eqtl)){
-	  cat(eqtl, "not exists. Exiting.\n")
-	  return(NA)
-	}
-	if(!file.exists(gwas)){
-	  cat(eqtl, "not exists. Exiting.\n")
-	  return(NA)
-	}
-	
-  ld_matrix <- 'T'
-	if(!is.null(ld_matrix)){
-    F_gwas <- fread(gwas, header = T, stringsAsFactors=F)
-		# print(F_gwas)
-		gwas_size <- F_gwas$`sample_size`[1]
-		# print(gwas_size)
-		
-		#for some reason CAU uses pvalues instead of bse values
-		if(pop == 'CAU'){ 
-				#main(eqtl=eqtl, gwas=gwas, directory=paste('/home/egeoffroy/LD_matrix/', pop, '_1Mb_coords_LDMatrix', sep =''),  mode = 'p', gene_list=gene_id, eqtlGeneCol='gene_id', eqtlSNPCol='variant_id', eqtlMAFCol='maf', eqtlSeCol=6, eqtlBetaCol=5, eqtlSampleSize= pop_size, gwasSNPCol=1, 
-				    #LD=ld_matrix, method="cond", gwasBetaCol=2, gwasSeCol=3, gwasSampleSize=gwas_size, outFile=paste('/home/egeoffroy/LD_matrix/coloc_output/', pop, '/', pop, '_', phenotype, '.txt', sep = ''), ld_header = 'T')
-					  
-				eqtl <- paste('/home/rschubert1/scratch/test_coloc_for_elyse/coloc/pQTL_', pop, '_', phenotype, '.txt.gz', sep = '')
-				gwas <- paste('/home/rschubert1/scratch/test_coloc_for_elyse/coloc/GWAS_TOPMED', pop, '_', phenotype, '.txt.gz', sep = '')
-				LD_dir<-"/home/rschubert1/scratch/test_coloc_for_elyse/test_LD/CAU_1Mb_coords_LDMatrix"
-				
-		} else {
-		    LD_dir<-paste('/home/egeoffroy/LD_matrix/', pop, '_1Mb_coords_LDMatrix', sep ='')
-			}
+coloc_analysis <- function(pop=NULL, pop_size=NULL, phenotype=NULL, gene_id=NULL, ld_matrix =NULL){
   
-		command<-"qsub -v pop=" %&% pop %&% 
-				  	 ",phenotype=" %&% phenotype %&%
-				  	 ",eqtl=" %&% eqtl %&%
-				  	 ",gwas=" %&% gwas %&%
-				  	 ",LD_dir=" %&% LD_dir %&%
-				  	 ",gene_id=" %&% rds %&%
-				  	 ",pop_size=" %&% pop_size %&%
-				  	 ",ld_matrix=" %&% ld_matrix %&%
-				  	 ",gwas_size=" %&% gwas_size %&%
-				  	 " -N " %&% pop %&% "_" %&% phenotype %&% "_coloc " %&%
-				  	 "/scratch/rschubert1/test_coloc_for_elyse/qsub_wrapper.sh"
-		system(command)
+  ## Reformat gene id
+  gene <- gsub("\\..*","",gene_id)
+  print(gene)
+  #RDS is for gene list?
+  rds<- wd %&% "gene_lists/" %&% pop %&% "/gene_list_" %&% pop %&% "_" %&% phenotype %&% ".RDS"
+  saveRDS(gene_id,rds)
+  
+  ## Get pQTL/GWAS directories 
+  pqtl <- paste(wd, "output/pQTL/", pop, "/pQTL_", pop, '_', phenotype, '.txt.gz', sep = '')
+  gwas <- paste(wd, "output/GWAS_TOPMED/", pop, "/GWAS_TOPMED_", pop, '_', phenotype, '.txt.gz', sep = '')
+  
+  ## Check if pQTL/GWAS files exist
+  if(!file.exists(eqtl)){
+    cat(eqtl, "not exists. Exiting.\n")
+    return(NA)
+  }
+  if(!file.exists(gwas)){
+    cat(eqtl, "not exists. Exiting.\n")
+    return(NA)
+  }
+  
+  
+  if(!is.null(ld_matrix)){
+    
+    ## Get more parameters for main function
+    F_gwas <- fread(gwas, header = T, stringsAsFactors=F)
+    # print(F_gwas)
+    gwas_size <- F_gwas$`sample_size`[1]
+    # print(gwas_size)
+    LD_dir<-paste(wd, 'LD_matrix/', pop, '/', pop, '_1Mb_coords_LDMatrix', sep ='')
+    
+    ## Run main function from 05_coloc
+    main(eqtl=eqtl, 
+         gwas=gwas, 
+         mode = 'bse', 
+         gene_list=gene, #NOTE: need to figure out this parameter w/RDS stuff
+         directory=LD_dir,
+         eqtlGeneCol='gene_id', 
+         eqtlSNPCol='variant_id', 
+         eqtlMAFCol='maf', 
+         eqtlSeCol=6, 
+         eqtlBetaCol=5, 
+         eqtlSampleSize=pop_size, 
+         gwasSNPCol=1,
+         gwasBetaCol=2, 
+         gwasSeCol=3, 
+         gwasSampleSize=gwas_size,
+         LD=ld_matrix, 
+         method="cond", 
+         outFile=paste(wd,'output/Coloc_output/', pop, '_', pheno, '.txt', sep = ''), ld_header = 'T')
   }
 }

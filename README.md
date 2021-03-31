@@ -6,7 +6,10 @@
 ```
 library(dplyr)
 library(reshape2)
+library(glmnet)
 library(methods)
+library(doMC)
+library(doRNG)
 library(tidyr)
 library(tibble)
 ```

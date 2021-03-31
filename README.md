@@ -5,11 +5,8 @@
 **R**
 ```
 library(dplyr)
-library(glmnet)
 library(reshape2)
 library(methods)
-library(doMC)
-library(doRNG)
 library(tidyr)
 library(tibble)
 ```

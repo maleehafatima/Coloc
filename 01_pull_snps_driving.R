@@ -1,10 +1,7 @@
 
 suppressMessages(library(dplyr))
-suppressMessages(library(glmnet))
 suppressMessages((library(reshape2)))
 suppressMessages(library(methods))
-suppressMessages(library(doMC))
-suppressMessages(library(doRNG))
 suppressMessages(library(tidyr))
 suppressMessages(library(tibble))
 
@@ -12,7 +9,7 @@ suppressMessages(library(tibble))
 #Shortened notation for concatenating strings
 
 get_gene_expression <- function(gene_expression_file_name, gene_annot) { #row are obs, columns are features
-  expr_df <- as.data.frame(t(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = 1)))
+  expr_df <- as.data.frame(t(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = NULL)))
   expr_df <- expr_df %>% select(one_of(intersect(gene_annot$gene_id, colnames(expr_df)))) #%>% mutate(id=gsub("\\.[0-9]+","",id))
   expr_df
 }
@@ -71,7 +68,7 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
   n_genes <- length(genes)
   samples <- rownames(expr_df)
   snp_annot <- get_filtered_snp_annot(snp_annot_file)
-  gt_df <- get_maf_filtered_genotype(genotype_file, maf, samples)
+  gt_df <- get_maf_filtered_genotype(genotype_file)
   for (i in 1:n_genes) {
     cat(i, "/", n_genes, "\n")
     gene <- unlist(genes[i])

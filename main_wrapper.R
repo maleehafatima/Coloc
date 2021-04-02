@@ -9,6 +9,8 @@ wd <- paste(wd,'/',sep='')
 source(paste(wd,'05_coloc.R',sep=''))
 source(paste(wd, '05b_run_coloc.R', sep=''))
 
+#make output folder 
+
 #Import arguments 
 args <- commandArgs(trailingOnly=TRUE)
 print(args)
@@ -27,6 +29,8 @@ genes<-readRDS(gene_id) #NOTE: need to figure out how this works with 5b
 
 
 
+
+#Call 5b as no hup in this script
 
 #(From script 5c) just becomes part of end of wrapper 
 for(i in 1:length(pops)){

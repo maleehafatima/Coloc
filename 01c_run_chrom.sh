@@ -8,7 +8,7 @@ genotype_file=$3 #path to genotype file
 expression_file=$4 #path to the expression file
 pops=${@:5:99}
 
-for chrom in {1..22}
+for chrom in {1..3}
 do 
 	nohup Rscript 01b_run_pull_snps_driving.R $chrom $snp_annot $gene_annot $genotype_file $expression_file $pops > output/LD_matrix/nohup_1Mb_chrom${chrom}_2.out &
 done

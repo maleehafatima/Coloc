@@ -1,18 +1,22 @@
 
 suppressMessages(library(dplyr))
+suppressMessages(library(glmnet))
 suppressMessages((library(reshape2)))
 suppressMessages(library(methods))
+suppressMessages(library(doMC))
+suppressMessages(library(doRNG))
 suppressMessages(library(tidyr))
 suppressMessages(library(tibble))
 
 "%&%" <- function(a,b) paste(a,b, sep = "") 
 #Shortened notation for concatenating strings
 
-get_gene_expression <- function(gene_expression_file_name, gene_annot) { #row are obs, columns are features
-  expr_df <- as.data.frame(t(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = NULL)))
-  expr_df <- expr_df %>% select(one_of(intersect(gene_annot$gene_id, colnames(expr_df)))) #%>% mutate(id=gsub("\\.[0-9]+","",id))
-  expr_df
-}
+## Couldn't use these line in pipeline due to confidentiality issues 
+# get_gene_expression <- function(gene_expression_file_name, gene_annot) { #row are obs, columns are features
+#   expr_df <- as.data.frame(t(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = NULL)))
+#   expr_df <- expr_df %>% select(one_of(intersect(gene_annot$gene_id, colnames(expr_df)))) #%>% mutate(id=gsub("\\.[0-9]+","",id))
+#   expr_df
+# }
 
 get_filtered_snp_annot <- function(snp_annot_file_name) {
   snp_annot <- read.table(snp_annot_file_name, header = T, stringsAsFactors = F) %>%
@@ -36,11 +40,10 @@ get_gene_annotation <- function(gene_annot_file_name, chrom, gene_types=c('prote
   gene_df
 }
 
-get_gene_type <- function(gene_annot, gene) {
-  if (grep('_', gene_annot$gene_id[1]))
-    separate(gene_annot, 'gene_id',into = c(NA, 'gene_id'), sep = '_', remove = TRUE)
-  filter(gene_annot, gene_id == gene)$gene_type
-}
+## Couldn't use these line in pipeline due to confidentiality issues 
+# get_gene_type <- function(gene_annot, gene) {
+#   filter(gene_annot, gene_id == gene)$gene_type
+# }
 
 get_gene_coords <- function(gene_annot, gene) {
   row <- gene_annot[which(gene_annot$gene_id == gene),]
@@ -65,10 +68,14 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
   
 
   gene_annot <- get_gene_annotation(gene_annot_file, chrom)
-  expr_df <- get_gene_expression(expression_file, gene_annot)
-  genes <- colnames(expr_df)
+  
+  ## Couldn't use these line in pipeline due to confidentiality issues 
+  #expr_df <- get_gene_expression(expression_file, gene_annot)
+  #genes <- colnames(expr_df)
+  #samples <- rownames(expr_df)
+  
+  genes <- list(gene_annot$gene_id)
   n_genes <- length(genes)
-  samples <- rownames(expr_df)
   snp_annot <- get_filtered_snp_annot(snp_annot_file)
   gt_df <- get_maf_filtered_genotype(genotype_file)
   for (i in 1:n_genes) {

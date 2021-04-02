@@ -37,6 +37,9 @@ get_gene_annotation <- function(gene_annot_file_name, chrom, gene_types=c('prote
 }
 
 get_gene_type <- function(gene_annot, gene) {
+  #  if (grep('_', gene_annot$gene_id)) 
+  #  geneannot_df <- read.table(gene_annot, header = TRUE, stringsAsFactors = FALSE, row.names = NULL)
+  separate(gene_annot, 'gene_id',into = c(NA, 'gene_id'), sep = '_', remove = TRUE)
   filter(gene_annot, gene_id == gene)$gene_type
 }
 

@@ -66,7 +66,6 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
                  covariates_file=NULL, chrom, pop, maf=0.01, n_folds=10, n_train_test_folds=5,
                  seed=NA, cis_window=1000000, alpha=0.5, null_testing=FALSE) {
   
-
   gene_annot <- get_gene_annotation(gene_annot_file, chrom)
   
   ## Couldn't use these line in pipeline due to confidentiality issues 
@@ -74,7 +73,7 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
   #genes <- colnames(expr_df)
   #samples <- rownames(expr_df)
   
-  genes <- list(gene_annot$gene_id)
+  genes <- as.vector(gene_annot$gene_id)
   n_genes <- length(genes)
   snp_annot <- get_filtered_snp_annot(snp_annot_file)
   gt_df <- get_maf_filtered_genotype(genotype_file)
@@ -83,18 +82,20 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
     gene <- unlist(genes[i])
     print(gene)
     gene_name <- gene_annot$gene_name[gene_annot$gene_id == gene]
-    gene_type <- get_gene_type(gene_annot, gene)
+    ## Couldn't use these line in pipeline due to confidentiality issues
+    #gene_type <- get_gene_type(gene_annot, gene)
     coords <- get_gene_coords(gene_annot, gene)
     
     cis_gt <- get_cis_genotype(gt_df, snp_annot, coords, cis_window)
     str(gene)
-    str(gene_type)
+    ## Couldn't use these line in pipeline due to confidentiality issues
+    #str(gene_type)
     str(coords)
     str(cis_gt)
     
     print(cis_gt)
     if(length(cis_gt) > 2){
-    	write.table(cis_gt, paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
+    	write.table(as.data.frame(cis_gt, stringsAsFactors=FALSE), file=paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
     }
   }
 }

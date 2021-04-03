@@ -7,6 +7,7 @@ suppressMessages(library(doMC))
 suppressMessages(library(doRNG))
 suppressMessages(library(tidyr))
 suppressMessages(library(tibble))
+suppressMessages(library(MASS)) #needed this for the write.matrix function i was using
 
 "%&%" <- function(a,b) paste(a,b, sep = "") 
 #Shortened notation for concatenating strings
@@ -83,18 +84,20 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
     gene <- unlist(genes[i])
     print(gene)
     gene_name <- gene_annot$gene_name[gene_annot$gene_id == gene]
-    gene_type <- get_gene_type(gene_annot, gene)
+    #gene_type <- get_gene_type(gene_annot, gene)
     coords <- get_gene_coords(gene_annot, gene)
     
     cis_gt <- get_cis_genotype(gt_df, snp_annot, coords, cis_window)
     str(gene)
-    str(gene_type)
+    #str(gene_type)
     str(coords)
     str(cis_gt)
     
     print(cis_gt)
     if(length(cis_gt) > 2){
     	write.table(cis_gt, paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
+      #this is how i ran it without the specific genes
+      #write.matrix(cis_gt,file = paste0('output/LD_matrix/', pop, '/', pop, '_chr_',chrom, '_1', '_1Mb_of_gene.txt'))
     }
   }
 }

@@ -53,7 +53,7 @@ chmod u+x 02_make_bed.sh
 This script uses the significant SNP lists produced by script 1, along with the bfiles produced by script 2, to calculate LD matrices between every significant SNP around every predicted gene. This step can be executed by calling script 3.
 ```
 chmod u+x 03_make_LD_matrix.sh
-./02_make_LD_matrix.sh {pop}
+./03_make_LD_matrix.sh {pop}
 ```
 #### Input Files: ####
 - output/LD_matrix/{pop}/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_of\_gene.txt

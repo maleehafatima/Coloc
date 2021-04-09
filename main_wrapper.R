@@ -18,10 +18,11 @@ source(paste(wd, '05b_run_coloc.R', sep=''))
 args <- commandArgs(trailingOnly=TRUE)
 print(args)
 input_dir <- args[1]
-pops_1 <- args[2]
-pops_4 <- args[3]
-phenos <- args[4]
-pop_sizes <- as.numeric(args[5])
+chrs <- as.numeric(args[2])
+pops_1 <- args[3]
+pops_4 <- args[4]
+phenos <- args[5]
+pop_sizes <- as.numeric(args[6])
 #gene_id<-args[6]  #NOTE: probs don't need this argument
 
 genes<-readRDS(gene_id) #NOTE: need to figure out how this works with 5b

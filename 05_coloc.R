@@ -187,10 +187,10 @@ return_ordered_snps<-function(snpList,eqtl_df,snpCol){
 }
 
 
-main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory='',
+main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory=NULL,
                eqtlGeneCol=NULL,eqtlSNPCol=NULL,eqtlMAFCol=NULL,eqtlPvalCol=NULL,eqtlBetaCol=NULL,eqtlSeCol=NULL, eqtlTstatCol=NULL,eqtlSampleSize=NULL,
                gwasSNPCol=NULL,gwasMAFCol=NULL,gwasPvalCol=NULL,gwasBetaCol=NULL,gwasSeCol=NULL, gwasTstatCol=NULL,gwasSampleSize=NULL,rule="H4>0.5",
-               outFile=NULL, LD=NULL, ld_header=NULL,
+               outFile=NULL, ld_header=NULL, #LD=NULL
                method=NULL,p12=1e-5,p1=1e-4,p2=1e-4,pthr=1e-6,r2thr=0.01,maxhits=3,cmode="iterative"){
   
   if(is.null(eqtlSampleSize) || is.null(gwasSampleSize)) {print("Sample sizes not set. Please make sure both GWAS and QTL sample sizes are set. Exiting."); return()}
@@ -247,6 +247,7 @@ main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory='',
   if ( mode == "bse") {
     #cat("Processing GWAS\n")
     GWAS_snps<-get_gwas_snps(gwas_df = gwasdf,snpCol=gwasSNPCol)
+    ld_files <- list.files(directory, pattern = paste('_1Mb_LD.ld.gz', sep = ''))
     
     for (i in 1:ngenes){
       gene<-gene_list[i]
@@ -269,9 +270,11 @@ main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory='',
       print('after effect sizes check')
       
       ## GET LD MATRICES
-      if(!is.null(LD)){
-        if(!is.null(list.files(directory, pattern = paste(gene, '_1Mb_LD.ld.gz', sep =''), full.names=T)[[1]][1])){
-          ld_matrix1 <- list.files(directory, pattern = paste(gene, '_1Mb_LD.ld.gz', sep =''), full.names=T)[[1]][1]
+      #if(!is.null(LD)){
+        if(length(grep(pattern = paste(gene, '_1Mb_LD.ld.gz', sep =''), ld_files)) > 0){
+          ld_matrix1 <- list.files(directory, pattern = paste(gene, '_1Mb_LD.ld.gz', sep =''))
+          ld_matrix1 <- paste(directory, '/', ld_matrix1, sep = '')
+          str(ld_matrix1)
           ld_matrix <- fread(ld_matrix1, header = F, stringsAsFactors=F)
           ld_matrix <- as.matrix(ld_matrix)
           ld_header <- str_replace(ld_matrix1, '.ld.gz', '.snplist')
@@ -288,8 +291,12 @@ main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory='',
           rownames(ld_matrix) <- as.list(ld_header)
           #print(head(ld_matrix))
           #print(dim(ld_matrix))
-        } else {cat(gene, 'gene skipped due to lack of ld matrix file when it was requested to use new version of coloc'); next}
-      }
+        } else {
+          cat(gene, 'gene skipped due to lack of ld matrix file when it was requested to use new version of coloc')
+          ld_matrix <- NULL
+          next
+          }
+      #}
       
       ## GET MAF DATA
       if (!is.null(gwasMAFCol)){

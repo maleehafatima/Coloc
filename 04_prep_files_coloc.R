@@ -6,8 +6,10 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(R.utils))
 
 #Get & set working directory
-wd <- getwd()
-wd <- paste(wd,'/',sep='')
+#wd <- getwd()
+#wd <- paste(wd,'/',sep='')
+wd <- '/homes/anovak9/Coloc/'
+input <- '/homes/anovak9/COLOC_input_data/'
 
 #Output: 'ab' with no space
 "%&%" <- function(a,b) paste(a,b,sep="") 
@@ -23,11 +25,11 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
          & !file.exists(wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt")){
         
         ## Store pop's MAF & SNP data from frq file
-        frq <- fread(paste(wd, "input/", pop, "_prot_hg38.frq", sep = ''))
+        frq <- fread(paste(input, pop, "_prot_hg38.frq", sep = ''))
         frq <- frq %>% dplyr::select(SNP, MAF)
         
         ## MAKE GWAS_write DF
-        GWAS_result <- fread(paste(wd, "input/GWAS_SS/WojcikG_", pheno, ".txt.gz", sep = '') , header = T)
+        GWAS_result <- fread(paste(input, "GWAS_SS/WojcikG_", pheno, ".txt.gz", sep = '') , header = T)
         #reformat chr_pos column
         GWAS_result$chr_pos <- paste(gsub("chr", "", GWAS_result$chromosome), GWAS_result$base_pair_location, sep = ":")
         #Filter & rename necessary columns for formatted GWAS DF
@@ -41,7 +43,7 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
         pQTL_write <- data.frame(gene_id = character(), variant_id = character(), maf = numeric(), pval_nominal = numeric(), slope = numeric(), slope_se = numeric(), stringsAsFactors = F)
         for(chr in chrs){ 
           #read in matrix pQTL results
-          mpqtl <- fread(wd %&% "input/cis_eQTLs_" %&% pop %&% "_WG_all_cis.txt.gz", nThread = 40) 
+          mpqtl <- fread(input %&% "cis_eQTLs_" %&% pop %&% "_WG_all_cis.txt.gz", nThread = 40) 
           #make your own standard error since it's not in the mpQTL output
           mpqtl$se <- mpqtl$beta / mpqtl$statistic 
           #add n_samples column
@@ -67,7 +69,7 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
         ## Write out & gzip formatted pQTL file
         fwrite(unique(pQTL_write), wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", 
                quote = F, sep = "\t", na = "NA", row.names = F, col.names = T)
-        gzip(wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pops[pop] %&% "_" %&% pheno %&% ".txt", 
+        gzip(wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", 
              destname = wd %&% "output/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")         
         
         ## Write out & gzip formatted GWAS file
@@ -87,3 +89,10 @@ prep_files <- function(pops = NULL, pop_sample_size = NULL, phenos = NULL, chrs 
   #End for loop for pops
 }
 #End prep_files function
+
+
+pops <- 'AFA'
+pop_sizes <- 183
+phenos <- c('BMI', 'C-reactive', 'HDL_cholesterol', 'Total_cholesterol')
+chrs <- c(1,2,3)
+prep_files(pops = pops, pop_sample_size = pop_sizes, phenos = phenos, chrs = chrs)

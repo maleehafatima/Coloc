@@ -1,6 +1,8 @@
 library(dplyr)
 library(data.table)
 
+#For running script 1: check if they have the necessary directories otherwise make output -> LD_matrix -> folders for every population
+
 #Get & set working directory
 wd <- getwd()
 wd <- paste(wd,'/',sep='')

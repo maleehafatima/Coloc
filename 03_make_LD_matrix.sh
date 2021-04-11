@@ -4,7 +4,7 @@
 pop=$1 #first argument is the population abbreviation
 
 #for chr in {1..22} #Loop through chromosomes 1-22
-for chr in {2..3} #Testing on 2 chromosomes
+for chr in {1..3} #Testing on 2 chromosomes
 do
 	for file in $"output/LD_matrix"/${pop}/${pop}_chr_${chr}_*
 	do

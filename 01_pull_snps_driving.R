@@ -34,6 +34,14 @@ get_maf_filtered_genotype <- function(genotype_file_name) {
   gt_df
 } 
 
+get_eQTL_snps <- function(bim_file) {
+  eQTL_snps <- read.table(bim_file, header = F, stringsAsFactors = F, col.names=c("chr","rsid","pos","start","allele1","allele2")) %>%
+    select(rsid) 
+  snp_list <- eQTL_snps$rsid
+  names(snp_list) <- NULL
+  print(snp_list)
+}
+
 get_gene_annotation <- function(gene_annot_file_name, chrom, gene_types=c('protein_coding',"aptamer", 'pseudogene', 'lincRNA',"aptamer","VALUE")){
   gene_df <- read.table(gene_annot_file_name, header = TRUE, stringsAsFactors = FALSE) %>%
     filter((chr == chrom) & gene_type %in% gene_types) 
@@ -57,12 +65,18 @@ get_cis_genotype <- function(gt_df, snp_annot, coords, cis_window) {
     return(NA)
   
    snp_info$SNP <- paste(snp_info$rsid, snp_info$refAllele, snp_info$effectAllele, sep = ':')
-   cis_gt <- snp_info$SNP
-   names(cis_gt) <- NULL
+   cis_gt <- snp_info %>% select(SNP)
    print(cis_gt)
 }
 
-main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file,
+get_overlapping_snps <- function(TOPMed_snps, thousand_genomes_snps) {
+  overlapping_snps <- TOPMed_snps %>% filter(SNP %in% thousand_genomes_snps)
+  filtered_snps <- overlapping_snps$SNP
+  names(filtered_snps) <- NULL
+  print(filtered_snps)
+}
+
+main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file, eQTL_bim_file,
                  covariates_file=NULL, chrom, pop, maf=0.01, n_folds=10, n_train_test_folds=5,
                  seed=NA, cis_window=1000000, alpha=0.5, null_testing=FALSE) {
   
@@ -77,6 +91,7 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
   n_genes <- length(genes)
   snp_annot <- get_filtered_snp_annot(snp_annot_file)
   gt_df <- get_maf_filtered_genotype(genotype_file)
+  eQTL_snps <- get_eQTL_snps(eQTL_bim_file)
   for (i in 1:n_genes) {
     cat(i, "/", n_genes, "\n")
     gene <- unlist(genes[i])
@@ -93,9 +108,11 @@ main <- function(snp_annot_file, gene_annot_file, genotype_file, expression_file
     str(coords)
     str(cis_gt)
     
-    print(cis_gt)
-    if(length(cis_gt) > 2){
-    	write.table(as.data.frame(cis_gt, stringsAsFactors=FALSE), file=paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
+    overlap_cis_gt <- get_overlapping_snps(cis_gt,eQTL_snps)
+    
+    print(overlap_cis_gt)
+    if(length(overlap_cis_gt) > 2){
+    	write.table(as.data.frame(overlap_cis_gt, stringsAsFactors=FALSE), file=paste('output/LD_matrix/',pop,'/', pop, '_chr_', chrom, '_', gene, '_1Mb_of_gene.txt', sep = ''), quote = F, row.names=F, col.names=F)
     }
   }
 }

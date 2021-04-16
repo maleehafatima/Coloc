@@ -1,6 +1,7 @@
 import os
 import os.path
 import argparse
+import subprocess
 
 '''
 Set up argparser
@@ -82,6 +83,8 @@ else:
     for i in len(pops1):
         for pheno in phenos:
             ## Scripts 1
+            for chrom in range(1,4):
+                subprocess.run(['01b_run_pull_snps_driving.R', chrom, snp_annot, gene_annot, genotype_file, expression_file, pops1])            
 
             print('Pulling SNPs completed.')
 

@@ -25,6 +25,7 @@ for(pop in pops){
                 gene_annot_file,
                 genotype_file=genotype_file,
                 expression_file=expression_file,
+                eQTL_bim_file=getwd()%&%"/output/LD_matrix/"%&%pop%&%"/"%&%pop%&%"_chr"%&%chrom%&%"_dose.bim",
                 pop=pop,
                 chrom=as.numeric(chrom),
                 null_testing=FALSE)

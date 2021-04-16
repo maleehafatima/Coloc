@@ -19,8 +19,7 @@ pops_4 <- args[4]
 phenos <- args[5]
 pop_sizes <- as.numeric(args[6])
 #gene_id<-args[6]  #NOTE: probs don't need this argument
-
-genes<-readRDS(gene_id) #NOTE: need to figure out how this works with 5b
+#genes<-readRDS(gene_id) #NOTE: need to figure out how this works with 5b
 
 
 ## MAKE DIRECTORIES

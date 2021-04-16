@@ -231,7 +231,13 @@ main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory=NULL,
   #print(head(gwasdf))
   
   #cat("Getting gene list\n")
-  gene_list<-get_gene_list(eqtldf)
+  ## If user didn't specify a gene list
+  if(is.null(gene_list)){
+    gene_list<-get_gene_list(eqtldf) 
+  } else {
+    ## If user did specify a gene list
+    gene_list <- readRDS(gene_list)
+  }
   ngenes<-length(gene_list)
   if(ngenes == 0){print("0 genes found. Exiting.\n"); return()}
   #cat(ngenes,"genes found\n")

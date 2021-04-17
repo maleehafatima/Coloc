@@ -82,7 +82,19 @@ else:
     for i in len(pops1):
         for pheno in phenos:
             ## Scripts 1
+            
+            script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R $chrom $snp_annot $gene_annot $genotype_file $expression_file $pops > output/LD_matrix/nohup_1Mb_chrom$' + chr + '_2.out &'
 
+            os.system('snp_annot=$1 #first argument is path to SNP annotation file')
+            os.system('gene_annot=$2 #path to gene annotation file')
+            os.system('genotype_file=$3 #path to genotype file')
+            os.system('expression_file=$4 #path to the expression file')
+            os.system('pops=${@:5:99}')
+            os.system('for chr in chrs:')
+            os.system('do')
+            os.system(script1cmd)
+            os.system('done')
+                
             print('Pulling SNPs completed.')
 
 

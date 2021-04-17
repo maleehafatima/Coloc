@@ -17,6 +17,10 @@ parser.add_argument('--pops4', action = 'extend', required=True, help = 'Populat
 parser.add_argument('--pop_sizes', type = int, action = 'extend', required=True, help = 'Size of populations, in respective order to pop list')
 parser.add_argument('--phenotypes', action = 'extend', required=True, help = 'Phenotypes to test')
 parser.add_argument('--chrs', type = int, action = 'extend', required=True, help = 'Indicate what chromosomes to run')
+parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
+parser.add_argument('--gene_annot', required=True, help = 'gene annotation file path')
+parser.add_argument('--geno', required=True, help = 'genotype files directory path')
+parser.add_argument('--expr', required=True, help = 'expression file path')
 #Flag to specify whether to run all genes or genes specified by user
 #Maybe make default -1?
 parser.add_argument('-gene_id', type = str, action = 'extend', nargs='?', default= False, help = 'Input specific genes ids to run colocalization on, default is set to False')
@@ -34,6 +38,10 @@ pops4 = args.pops4
 pop_sizes = args.pop_sizes
 phenos = args.phenotypes
 chrs = args.chrs
+snp_annot = args.snp_annot
+gene_annot = args.gene_annot
+geno = args.geno
+expr = args.expr
 if args.gene_id != False:
     gene_ids = args.gene_id
 
@@ -82,9 +90,14 @@ else:
     for i in len(pops1):
         for pheno in phenos:
             ## Scripts 1
+            
+            script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + snp_annot + ' ' + gene_annot + ' ' + geno + ' ' + expr + ' ' + pops1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
 
+            os.system('for chr in chrs:')
+            os.system('do')
+            os.system(script1cmd)
+            os.system('done')
             print('Pulling SNPs completed.')
-
 
             ## Scripts 2
 

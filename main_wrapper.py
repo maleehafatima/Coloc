@@ -8,6 +8,7 @@ Set up argparser
 parser = argparse.ArgumentParser(description = 'Run GWAS-eQTL colocalization pipeline.')
 #Add arguments
 parser.add_argument('--gwas', required=True, help = 'GWAS summary statistics directory path')
+parser.add_argument('--eqtl', required=True, help='eQTL data directory path')
 parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf files from the eQTL population')
 parser.add_argument('--ld', required=True, help = 'LD matrices directory path')
 parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
@@ -30,6 +31,7 @@ args = parser.parse_args()
 Store arguments
 '''
 gwas = args.gwas
+eqtl = args.eqtl
 vcf = args.vcf
 ld = args.ld
 out = args.out

@@ -10,6 +10,10 @@ parser = argparse.ArgumentParser(description = 'Run GWAS-eQTL colocalization pip
 parser.add_argument('--gwas', required=True, help = 'GWAS summary statistics directory path')
 parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf files from the eQTL population')
 parser.add_argument('--ld', required=True, help = 'LD matrices directory path')
+parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
+parser.add_argument('--gene_annot', required=True, help = 'gene annotation file path')
+parser.add_argument('--geno', required=True, help = 'genotype files directory path')
+parser.add_argument('--expr', required=True, help = 'expression file path')
 #Add frq file dir?
 parser.add_argument('--out', required=True, help = 'Specify directory for output files')
 parser.add_argument('--pops1', action = 'extend', required=True, help = 'Populations used for vcf files')
@@ -34,6 +38,10 @@ pops4 = args.pops4
 pop_sizes = args.pop_sizes
 phenos = args.phenotypes
 chrs = args.chrs
+snp_annot = args.snp_annot
+gene_annot = args.gene_annot
+geno = args.geno
+expr = args.expr
 if args.gene_id != False:
     gene_ids = args.gene_id
 
@@ -91,7 +99,11 @@ else:
                 print('Bfiles made.')
 
             ## Scripts 1
-
+        
+            for chr in chrs:
+                script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + snp_annot + ' ' + gene_annot + ' ' + geno + ' ' + expr + ' ' + pops1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
+                os.system(script1cmd)
+                
             print('Pulling SNPs completed.')
 
             for chr in chrs:

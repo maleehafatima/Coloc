@@ -8,7 +8,7 @@ Set up argparser
 parser = argparse.ArgumentParser(description = 'Run GWAS-eQTL colocalization pipeline.')
 #Add arguments
 parser.add_argument('--gwas', required=True, help = 'GWAS summary statistics directory path')
-parser.add_argument('--eqtl', required=True, help = 'eQTL data directory path')
+parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf files from the eQTL population')
 parser.add_argument('--ld', required=True, help = 'LD matrices directory path')
 #Add frq file dir?
 parser.add_argument('--out', required=True, help = 'Specify directory for output files')
@@ -80,18 +80,25 @@ if args.gene_id != False:
 ## Run all genes in chromosomes
 else:
     for i in len(pops1):
+        pop = pops1[i]
         for pheno in phenos:
+            for chr in chrs:
+                ## Script 2
+                #maybe implement subprocess for parallelization
+                os.system("chmod u+x 02_make_bed.sh") #Make the script executable
+                cmd = "./02_make_bed.sh "+pop+" "+vcf
+                os.system(cmd)
+                print('Bfiles made.')
+
             ## Scripts 1
 
             print('Pulling SNPs completed.')
 
-
-            ## Scripts 2
-
-
-            ## Scripts 3
-
-            print('LD matrices created.')
+            for chr in chrs:
+                ## Scripts 3
+                os.system("chmod u+x 03_make_LD_matrix.sh")
+                os.system("./03_make_LD_matrix.sh "+pop+" "+chr
+		print('LD matrices created.')
 
 
             ## Script 4

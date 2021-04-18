@@ -8,6 +8,7 @@ Set up argparser
 parser = argparse.ArgumentParser(description = 'Run GWAS-eQTL colocalization pipeline.')
 #Add arguments
 parser.add_argument('--gwas', required=True, help = 'GWAS summary statistics directory path')
+parser.add_argument('--eqtl', required=True, help='eQTL data directory path')
 parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf files from the eQTL population')
 parser.add_argument('--ld', required=True, help = 'LD matrices directory path')
 parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
@@ -31,6 +32,7 @@ Store arguments
 '''
 gwas = args.gwas
 eqtl = args.eqtl
+vcf = args.vcf
 ld = args.ld
 out = args.out
 pops1 = args.pops1
@@ -90,8 +92,8 @@ else:
     for i in len(pops1):
         pop = pops1[i]
         for pheno in phenos:
+            ## Script 2
             for chr in chrs:
-                ## Script 2
                 #maybe implement subprocess for parallelization
                 os.system("chmod u+x 02_make_bed.sh") #Make the script executable
                 cmd = "./02_make_bed.sh "+pop+" "+vcf
@@ -99,15 +101,15 @@ else:
                 print('Bfiles made.')
 
             ## Scripts 1
-        
+
             for chr in chrs:
                 script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + snp_annot + ' ' + gene_annot + ' ' + geno + ' ' + expr + ' ' + pops1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
                 os.system(script1cmd)
-                
+
             print('Pulling SNPs completed.')
 
+            ## Script 3
             for chr in chrs:
-                ## Scripts 3
                 os.system("chmod u+x 03_make_LD_matrix.sh")
                 os.system("./03_make_LD_matrix.sh "+pop+" "+chr
 		print('LD matrices created.')

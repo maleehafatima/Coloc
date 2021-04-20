@@ -106,18 +106,18 @@ else:
 
         ## Scripts 1
         for chr in chrs:
-	    for file in geno_files:
-		if chr in file:
-		    chr_geno = file
+	        for file in geno_files:
+		        if chr in file:
+		            chr_geno = file
 	    for file in snp_annot_files:
-		if chr in file:
-		    chr_snp = file
+		    if chr in file:
+		        chr_snp = file
 	    for file in gene_annot_files:
-		if chr in file:
-		    chr_gene = file
-            script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
+		    if chr in file:
+		        chr_gene = file
+        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
                     + ' ' + pop1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
-            os.system(script1cmd)
+        os.system(script1cmd)
 
         print('Pulling SNPs completed.')
 

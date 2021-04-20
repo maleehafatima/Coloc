@@ -12,12 +12,12 @@ parser.add_argument('--eqtl', required=True, help='Exact eQTL txt file path')
 parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf files from the eQTL population')
 parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
 parser.add_argument('--gene_annot', required=True, help = 'Exact gene annotation file path')
-parser.add_argument('--geno', required=True, help = 'genotype files directory path')
+parser.add_argument('--geno', required=True, help = 'Genotype files directory path')
 parser.add_argument('--frq', required = True, help = 'Exact frq file path')
 parser.add_argument('--out', required=True, help = 'Specify main output directory for all output file')
-parser.add_argument('--pop1', required=True, help = 'Populations used for vcf files')
-parser.add_argument('--pop4', required=True, help = 'Populations used for frq and eQTL files')
-parser.add_argument('--pop_size', type = int, action = 'extend', required=True, help = 'Size of populations, in respective order to pop list')
+parser.add_argument('--pop1', required=True, help = 'Population used for vcf files')
+parser.add_argument('--pop4', required=True, help = 'Population used for frq and eQTL files')
+parser.add_argument('--pop_size', type = int, required=True, help = 'Size of population')
 parser.add_argument('--phenotypes', action = 'extend', required=True, help = 'Phenotypes to test')
 parser.add_argument('--chrs', type = int, action = 'extend', required=True, help = 'Indicate what chromosomes to run')
 #Flag to specify whether to run all genes or genes specified by user
@@ -30,7 +30,6 @@ Store arguments
 gwas = args.gwas
 eqtl = args.eqtl
 vcf = args.vcf
-ld = args.ld
 snp_annot = args.snp_annot
 gene_annot = args.gene_annot
 geno = args.geno
@@ -98,9 +97,14 @@ else:
 
         ## Script 2
         for chr in chrs:
+            #Get vcf file specific to chr
+            vcf_files = os.listdir(vcf)
+            for file in vcf_files:
+                if chr in file:
+                    chr_vcf = file
             #maybe implement subprocess for parallelization
             os.system("chmod u+x 02_make_bed.sh") #Make the script executable
-            cmd = "./02_make_bed.sh "+pop1+" "+vcf
+            cmd = "./02_make_bed.sh "+pop1+" "+vcf_files
             os.system(cmd)
         print('Bfiles made.')
 

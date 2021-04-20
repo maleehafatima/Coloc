@@ -18,10 +18,10 @@ parser.add_argument('--out', required=True, help = 'Specify main output director
 parser.add_argument('--pop1', required=True, help = 'Population used for vcf files')
 parser.add_argument('--pop4', required=True, help = 'Population used for frq and eQTL files')
 parser.add_argument('--pop_size', type = int, required=True, help = 'Size of population')
-parser.add_argument('--phenotypes', action = 'extend', required=True, help = 'Phenotypes to test')
-parser.add_argument('--chrs', type = int, action = 'extend', required=True, help = 'Indicate what chromosomes to run')
+parser.add_argument('--phenotypes', nargs = '*', required=True, help = 'Phenotypes to test')
+parser.add_argument('--chrs', type = int, nargs= '*', required=True, help = 'Indicate what chromosomes to run')
 #Flag to specify whether to run all genes or genes specified by user
-parser.add_argument('-gene_id', type = str, action = 'extend', nargs='?', default= False, help = 'Input specific genes ids to run colocalization on, default is set to False')
+parser.add_argument('-gene_id', type = str, nargs='*', default= False, help = 'Input specific genes ids to run colocalization on, default is set to False')
 args = parser.parse_args()
 
 '''

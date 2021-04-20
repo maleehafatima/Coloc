@@ -104,7 +104,7 @@ else:
                     chr_vcf = file
             #maybe implement subprocess for parallelization
             os.system("chmod u+x 02_make_bed.sh") #Make the script executable
-            cmd = "./02_make_bed.sh "+pop1+" "+vcf_files
+            cmd = "./02_make_bed.sh "+pop1+" "+chr_vcf
             os.system(cmd)
         print('Bfiles made.')
 

@@ -98,7 +98,6 @@ else:
             
         print('Run ' + pop1 + ' for ' + pheno + '.')
 
-<<<<<<< HEAD
         ## Script 2
         for chr in chrs:
             #maybe implement subprocess for parallelization
@@ -112,37 +111,6 @@ else:
             script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + snp_annot + ' ' + gene_annot + ' ' + geno \
                     + ' ' + expr + ' ' + pop1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
             os.system(script1cmd)
-=======
-            ## Script 2
-            for chr in chrs:
-                #maybe implement subprocess for parallelization
-                os.system("chmod u+x 02_make_bed.sh") #Make the script executable
-                cmd = "./02_make_bed.sh "+pop+" "+vcf
-                os.system(cmd)
-            print('Bfiles made.')
-
-            ## Scripts 1
-	    geno_files = os.listdir(geno)
-	    snp_annot_files = os.listdir(snp_annot)
-	    expr_files = os.listdir(expr)
-	    gene_annot_files = os.listdir(gene_annot)
-            for chr in chrs:
-		for file in geno_files:
-			if chr in file:
-				chr_geno = file
-		for file in snp_annot_files:
-			if chr in file:
-				chr_snp = file
-		for file in expr_files:
-			if chr in file:
-				chr_expr = file
-		for file in gene_annot_files:
-			if chr in file:
-				chr_gene = file
-                script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
-                    + ' ' + chr_expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out'
-                os.system(script1cmd)
->>>>>>> 4e57eba44dc97f8ce5b4e639be11037dc30f544d
 
         print('Pulling SNPs completed.')
 

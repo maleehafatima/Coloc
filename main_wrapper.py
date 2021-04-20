@@ -105,6 +105,10 @@ else:
         print('Bfiles made.')
 
         ## Scripts 1
+	geno_files = os.listdir(geno)
+	snp_annot_files = os.listdir(snp_annot)
+	gene_annot_files = os.listdir(gene_annot)
+	
         for chr in chrs:
 	        for file in geno_files:
 		        if chr in file:

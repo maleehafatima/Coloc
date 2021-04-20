@@ -13,7 +13,6 @@ parser.add_argument('--vcf', required=True, help = 'Directory containing the vcf
 parser.add_argument('--snp_annot', required=True, help = 'SNP annotation files directory path')
 parser.add_argument('--gene_annot', required=True, help = 'Exact gene annotation file path')
 parser.add_argument('--geno', required=True, help = 'genotype files directory path')
-parser.add_argument('--expr', required=True, help = 'Exact expression file path')
 parser.add_argument('--frq', required = True, help = 'Exact frq file path')
 parser.add_argument('--out', required=True, help = 'Specify main output directory for all output file')
 parser.add_argument('--pops1', action = 'extend', required=True, help = 'Populations used for vcf files')
@@ -36,7 +35,6 @@ ld = args.ld
 snp_annot = args.snp_annot
 gene_annot = args.gene_annot
 geno = args.geno
-expr = args.expr
 frq = args.frq
 out = args.out
 pops1 = args.pops1
@@ -119,7 +117,6 @@ else:
             ## Scripts 1
 	    geno_files = os.listdir(geno)
 	    snp_annot_files = os.listdir(snp_annot)
-	    expr_files = os.listdir(expr)
 	    gene_annot_files = os.listdir(gene_annot)
             for chr in chrs:
 		for file in geno_files:
@@ -128,14 +125,11 @@ else:
 		for file in snp_annot_files:
 			if chr in file:
 				chr_snp = file
-		for file in expr_files:
-			if chr in file:
-				chr_expr = file
 		for file in gene_annot_files:
 			if chr in file:
 				chr_gene = file
-                script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
-                    + ' ' + chr_expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
+                script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
+                    + ' ' + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out'
                 os.system(script1cmd)
 
             print('Pulling SNPs completed.')

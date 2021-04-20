@@ -10,11 +10,11 @@ args <- commandArgs(trailingOnly = TRUE)
 gwas <- args[1] #specify exact file path of gwas sum stat for this pheno in wrapper command
 pqtl <- args[2] #specify exact file path in wrapper command for this pop
 frq <- args[3] #not sure if this will work, need to specify exact file path in wrapper command
-out <- args [4] #output directory
+out <- args [4] #main output directory
 pop <- args[5]
 pop_size <- as.numeric(args[6])
 pheno <- args[7]
-chrs <- as.numeric(args[8])
+chrs <- tail(args, -7)
 
 
 #Output: 'ab' with no space
@@ -23,7 +23,7 @@ chrs <- as.numeric(args[8])
 
 ## If formatted GWAS & pQTL files don't exist for this pheno, create them
 if(!file.exists(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt") 
-   & !file.exists(out %&% "/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt")){
+   & !file.exists(out %&% "/eQTL/" %&% pop %&% "/eQTL_" %&% pop %&% "_" %&% pheno %&% ".txt")){
   
   ## Store pop's MAF & SNP data from frq file
   frq <- fread(frq)
@@ -67,9 +67,9 @@ if(!file.exists(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% 
   #order rows by gene id
   pQTL_write <- pQTL_write[order(pQTL_write$gene_id),]
         
-  ## Write out & gzip formatted pQTL file
-  fwrite(unique(pQTL_write), out %&% "/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", quote = F, sep = "\t", na = "NA", row.names = F, col.names = T)
-  gzip(out %&% "/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", destname = out %&% "/pQTL/" %&% pop %&% "/pQTL_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")         
+  ## Write out & gzip formatted eQTL file
+  fwrite(unique(pQTL_write), out %&% "/eQTL/" %&% pop %&% "/eQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", quote = F, sep = "\t", na = "NA", row.names = F, col.names = T)
+  gzip(out %&% "/eQTL/" %&% pop %&% "/eQTL_" %&% pop %&% "_" %&% pheno %&% ".txt", destname = out %&% "/eQTL/" %&% pop %&% "/eQTL_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")         
         
   ## Write out & gzip formatted GWAS file
   fwrite(unique(GWAS_write), out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt", row.names = F, col.names = T, sep = "\t", quote = F, na = "NA")

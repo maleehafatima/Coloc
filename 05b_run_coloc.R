@@ -4,7 +4,7 @@ library(data.table)
 #Get input arguments from command line
 args <- commandArgs(trailingOnly = TRUE)
 gwas <- args[1] #specify exact file path of formatted gwas file in wrapper for this pop & phenotype
-pqtl <- args[2] #specify exact file path of formatted pqtl file in wrapper for this pop & phenotype
+eqtl <- args[2] #specify exact file path of formatted eqtl file in wrapper for this pop & phenotype
 ld <- args[3] #specify directory for ld matrices for this pop (aka pop_1Mb_coords_LDMatrix)
 out <- args [4] #output directory
 pop <- args[5]
@@ -29,9 +29,9 @@ source(paste(wd,'05_coloc.R',sep=''))
 #saveRDS(gene_id,rds)
   
 
-## Check if pQTL/GWAS files exist
-if(!file.exists(pqtl)){
-  cat(pqtl, "not exists. Exiting.\n")
+## Check if eQTL/GWAS files exist
+if(!file.exists(eqtl)){
+  cat(eqtl, "not exists. Exiting.\n")
   return(NA)
 }
 if(!file.exists(gwas)){
@@ -47,7 +47,7 @@ gwas_size <- F_gwas$`sample_size`[1]
 # print(gwas_size)
     
 ## Run main function from 05_coloc
-main(eqtl=pqtl, 
+main(eqtl=eqtl, 
      gwas=gwas, 
      mode = 'bse', 
      #gene_list=rds,

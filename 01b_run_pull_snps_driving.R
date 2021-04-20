@@ -12,8 +12,8 @@ snp_annot_file <- sub("chrom",chrom,snp_annot_file) #Put the chromosome # into t
 gene_annot_file <- argv[3] 
 genotype_file <- argv[4]
 genotype_file <- sub("chrom",chrom,genotype_file)
-expression_file <- argv[5]
-pops = argv[6] #store every argument after the 5th
+expression_file <- argv[3]
+pops = argv[5] #store every argument after the 5th
 pip <- '0.001' #what to do with pip
 
 pop_snp_annot_file <- sub("pop",pop,snp_annot_file)

@@ -14,20 +14,25 @@ library(tidyr)
 library(tibble)
 ```
 **bash**
+
+**Python**
+```
+import os
+import os.path
+import argparse
+```
 ## Software ##
 ---
 - [PLINK 1.9](https://www.cog-genomics.org/plink/)
 - [COLOC 3.2-1](https://github.com/chr1swallace/coloc)
 
+## Running the pipeline ##
+
 ## Workflow ##
 ---
-### Scripts 1a-c ###
+### Scripts 1a-b ###
 These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:
-```
-chmod u+x 01c_run_chrom.sh
-./01c_run_chrom.sh {path/to/SNP_annotation_file.txt} {path/to/gene_annotation_file.txt} {path/to/genotype_file.txt} {path/to/expression_file.txt} {list of population abbreviations}
-#For any occurences of a population abbreviation or chromosome number in the file path, use "pop" and "chrom", respectively
-```
+
 #### Input Files: ####
 - SNP annotation file
 - Gene annotation file

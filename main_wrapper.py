@@ -139,8 +139,8 @@ else:
 		for file in gene_annot_files:
 			if chr in file:
 				chr_gene = file
-                script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
-                    + ' ' + chr_expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
+                script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
+                    + ' ' + chr_expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out'
                 os.system(script1cmd)
 >>>>>>> 4e57eba44dc97f8ce5b4e639be11037dc30f544d
 

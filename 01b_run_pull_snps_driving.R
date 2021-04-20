@@ -13,21 +13,18 @@ gene_annot_file <- argv[3]
 genotype_file <- argv[4]
 genotype_file <- sub("chrom",chrom,genotype_file)
 expression_file <- argv[3]
-pops = tail(argv,-5) #store every argument after the 5th
+pops = argv[5] #store every argument after the 5th
 pip <- '0.001' #what to do with pip
 
-for(pop in pops){
-        #Put the population abbreviation into the file paths
-        pop_snp_annot_file <- sub("pop",pop,snp_annot_file)
-        pop_genotype_file <- sub("pop",pop,genotype_file)
+pop_snp_annot_file <- sub("pop",pop,snp_annot_file)
+pop_genotype_file <- sub("pop",pop,genotype_file)
 
-        main(snp_annot_file=snp_annot_file,
-                gene_annot_file,
-                genotype_file=genotype_file,
-                expression_file=expression_file,
-                eQTL_bim_file=getwd()%&%"/output/LD_matrix/"%&%pop%&%"/"%&%pop%&%"_chr"%&%chrom%&%"_dose.bim",
-                pop=pop,
-                chrom=as.numeric(chrom),
-                null_testing=FALSE)
-}
+main(snp_annot_file=snp_annot_file,
+        gene_annot_file,
+        genotype_file=genotype_file,
+        expression_file=expression_file,
+        eQTL_bim_file=getwd()%&%"/output/LD_matrix/"%&%pop%&%"/"%&%pop%&%"_chr"%&%chrom%&%"_dose.bim",
+        pop=pop,
+        chrom=as.numeric(chrom),
+        null_testing=FALSE)
 

@@ -8,10 +8,9 @@ eqtl <- args[2] #specify exact file path of formatted eqtl file in wrapper for t
 ld <- args[3] #specify directory for ld matrices for this pop (aka pop_1Mb_coords_LDMatrix)
 out <- args [4] #output directory
 pop <- args[5]
-pop_size <- args[6]
+pop_size <- as.numeric(args[6])
 pheno <- args[7]
-#Way to do conditional tail argument?
-genes <- tail(args,-7)
+genes <- tail(args,-7) #if user input gene ids
 
 #Get & set working directory (tell user to cd into Coloc repo)
 wd <- getwd()
@@ -22,12 +21,13 @@ source(paste(wd,'05_coloc.R',sep=''))
 
 "%&%" = function(a,b) paste(a,b,sep="")
 
+#If user input a list of genes
+if(length(genes) != 0){
+  #RDS to save gene list
+  rds<- out %&% "/gene_lists/gene_list_" %&% pop %&% "_" %&% pheno %&% ".RDS"
+  saveRDS(gene_id,rds)
+}
 
-#NOTE: figure out how to tell if list was read in first
-#RDS to save gene list if user input one
-#rds<- out %&% "/gene_lists/" %&% pop %&% "/gene_list_" %&% pop %&% "_" %&% phenotype %&% ".RDS"
-#saveRDS(gene_id,rds)
-  
 
 ## Check if eQTL/GWAS files exist
 if(!file.exists(eqtl)){
@@ -50,7 +50,7 @@ gwas_size <- F_gwas$`sample_size`[1]
 main(eqtl=eqtl, 
      gwas=gwas, 
      mode = 'bse', 
-     #gene_list=rds,
+     gene_list=rds,
      directory=ld,
      eqtlGeneCol='gene_id', 
      eqtlSNPCol='variant_id', 

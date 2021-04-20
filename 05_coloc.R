@@ -190,7 +190,7 @@ return_ordered_snps<-function(snpList,eqtl_df,snpCol){
 main<-function(eqtl,gwas,mode="bse", gene_list=NULL, directory=NULL,
                eqtlGeneCol=NULL,eqtlSNPCol=NULL,eqtlMAFCol=NULL,eqtlPvalCol=NULL,eqtlBetaCol=NULL,eqtlSeCol=NULL, eqtlTstatCol=NULL,eqtlSampleSize=NULL,
                gwasSNPCol=NULL,gwasMAFCol=NULL,gwasPvalCol=NULL,gwasBetaCol=NULL,gwasSeCol=NULL, gwasTstatCol=NULL,gwasSampleSize=NULL,rule="H4>0.5",
-               outFile=NULL, ld_header=NULL, #LD=NULL
+               outFile=NULL, ld_header=NULL,
                method=NULL,p12=1e-5,p1=1e-4,p2=1e-4,pthr=1e-6,r2thr=0.01,maxhits=3,cmode="iterative"){
   
   if(is.null(eqtlSampleSize) || is.null(gwasSampleSize)) {print("Sample sizes not set. Please make sure both GWAS and QTL sample sizes are set. Exiting."); return()}

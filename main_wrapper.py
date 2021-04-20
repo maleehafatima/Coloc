@@ -117,10 +117,25 @@ else:
             print('Bfiles made.')
 
             ## Scripts 1
-
+	    geno_files = os.listdir(geno)
+	    snp_annot_files = os.listdir(snp_annot)
+	    expr_files = os.listdir(expr)
+	    gene_annot_files = os.listdir(gene_annot)
             for chr in chrs:
-                script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + snp_annot + ' ' + gene_annot + ' ' + geno \
-                    + ' ' + expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
+		for file in geno_files:
+			if chr in file:
+				chr_geno = file
+		for file in snp_annot_files:
+			if chr in file:
+				chr_snp = file
+		for file in expr_files:
+			if chr in file:
+				chr_expr = file
+		for file in gene_annot_files:
+			if chr in file:
+				chr_gene = file
+                script1cmd = 'nohup Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
+                    + ' ' + chr_expr + ' ' + pop + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
                 os.system(script1cmd)
 
             print('Pulling SNPs completed.')

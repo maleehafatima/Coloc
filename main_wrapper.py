@@ -109,7 +109,6 @@ else:
         #Get files in dirs
         geno_files = os.listdir(geno)
         snp_annot_files = os.listdir(snp_annot)
-        gene_annot_files = os.listdir(gene_annot)
         #Get file specific to chr
         for chr in chrs:
             for file in geno_files:
@@ -118,11 +117,8 @@ else:
             for file in snp_annot_files:
                 if chr in file:
                     chr_snp = file
-            for file in gene_annot_files:
-                if chr in file:
-                    chr_gene = file
         #Run command
-        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + chr_gene + ' ' + chr_geno \
+        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno \
                     + ' ' + pop1 + ' > output/LD_matrix/nohup_1Mb_chrom' + chr + '_2.out &'
         os.system(script1cmd)
 

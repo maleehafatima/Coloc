@@ -13,7 +13,8 @@ gene_annot_file <- argv[3]
 genotype_file <- argv[4]
 genotype_file <- sub("chrom",chrom,genotype_file)
 expression_file <- argv[3]
-pops = argv[5] #store every argument after the 5th
+out <- argv[5]
+pop = argv[6] 
 pip <- '0.001' #what to do with pip
 
 pop_snp_annot_file <- sub("pop",pop,snp_annot_file)
@@ -24,6 +25,7 @@ main(snp_annot_file=snp_annot_file,
         genotype_file=genotype_file,
         expression_file=expression_file,
         eQTL_bim_file=getwd()%&%"/output/LD_matrix/"%&%pop%&%"/"%&%pop%&%"_chr"%&%chrom%&%"_dose.bim",
+        out_dir = out,
         pop=pop,
         chrom=as.numeric(chrom),
         null_testing=FALSE)

@@ -3,6 +3,7 @@
 # This file makes the LD matrices for colocalization using plink with the dosage bed/bim/fam files and a list of sig snps to include inthe matrix for each gene.
 pop=$1 #first argument is the population abbreviation
 chr=$2 #second argument is the chromosome
+out=$3 #output directory
 
 for file in $"output/LD_matrix"/${pop}/${pop}_chr_${chr}_*
 do
@@ -10,7 +11,7 @@ do
 	substring=('_1Mb_of_gene.txt') #file endings
 	filename=${filename%"${substring}"} #% operations extracts the substring from the filename
 
-	plink --bfile output/LD_matrix/${pop}/${pop}_chr${chr}_dose --r square gz yes-really --extract ${file} --write-snplist --out output/LD_matrix/${pop}/${pop}_1Mb_coords_LDMatrix/${filename}_1Mb_LD
+	plink --bfile ${out}/LD_matrix/${pop}/${pop}_chr${chr}_dose --r square gz yes-really --extract ${file} --write-snplist --out ${out}/LD_matrix/${pop}/${pop}_1Mb_coords_LDMatrix/${filename}_1Mb_LD
 	#--bfile specifies the input bfiles
 	#--r calculates the inter-variant allele count correlations
 	#square specifies the shape of the output matrix

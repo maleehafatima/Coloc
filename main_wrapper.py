@@ -104,7 +104,7 @@ else:
                     chr_vcf = file
             #maybe implement subprocess for parallelization
             os.system("chmod u+x 02_make_bed.sh") #Make the script executable
-            cmd = "./02_make_bed.sh "+pop1+" "+chr_vcf
+            cmd = "./02_make_bed.sh "+pop1+" "+chr_vcf+" "+out
             os.system(cmd)
         print('Bfiles made.')
 
@@ -131,7 +131,7 @@ else:
         ## Script 3
         for chr in chrs:
             os.system("chmod u+x 03_make_LD_matrix.sh")
-            os.system("./03_make_LD_matrix.sh "+pop1+" "+chr)
+            os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
 		    
         print('LD matrices created.')
 

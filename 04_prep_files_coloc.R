@@ -48,7 +48,7 @@ if(!file.exists(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% 
     #make your own standard error since it's not in the mpQTL output
     mpqtl$se <- mpqtl$beta / mpqtl$statistic 
     #add n_samples column
-    mpqtl$n_samples <- pop_sample_size[pop]
+    mpqtl$n_samples <- pop_size
     #add MAF to pQTL DF (left_join combines mpqtl & frq dfs)
     mpQTL_for_COLOC <- left_join(mpqtl, frq, by = c("snps" = "SNP")) 
     #subset & rename cols needed for COLOC input

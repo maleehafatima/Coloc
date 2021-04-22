@@ -184,7 +184,7 @@ if args.gene_id != False:
         #Convert list of genes to string
         genes_unlist = ' '.join(gene_ids)
         #Run script 5 command
-        cmd = 'Rscript 05b_run_coloc.R' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+        cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
                     + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
         os.system(cmd)
 

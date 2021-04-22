@@ -145,7 +145,7 @@ if args.gene_id != False:
     gene_ids = args.gene_id
     
     for pheno in phenos:
-        
+        print(phenos,flush=True)
         ## Script 4
 
         #Get list of files in gwas directory
@@ -193,7 +193,7 @@ if args.gene_id != False:
 ## Run all genes in chromosomes
 else:
     for pheno in phenos:
-        
+        print(phenos,flush=True)
         ## Script 4
 
         #Get list of files in gwas directory
@@ -232,7 +232,7 @@ else:
         #Convert list of genes to string
         genes_unlist = ' '.join(gene_ids)
         #Run script 5 command
-        cmd = 'Rscript 05b_run_coloc.R' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+        cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
                     + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
         os.system(cmd)
 

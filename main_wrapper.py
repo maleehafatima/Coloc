@@ -145,7 +145,7 @@ if args.gene_id != False:
     gene_ids = args.gene_id
     
     for pheno in phenos:
-        
+
         ## Script 4
 
         #Get list of files in gwas directory
@@ -193,9 +193,9 @@ if args.gene_id != False:
 ## Run all genes in chromosomes
 else:
     for pheno in phenos:
-        print(phenos,flush=True)
+
         ## Script 4
-       
+
         #Get list of files in gwas directory
         gwas_files = os.listdir(gwas)
         #Get gwas file specific to phenotype
@@ -217,13 +217,8 @@ else:
         out_gwas = out + '/GWAS_TOPMED/' + pop4 
         gwas_files = os.listdir(out_gwas)
         for file in gwas_files:
-            print(file,flush=True)
             if pheno in file:
-                print("Found phenotype: "+pheno,flush=True)
                 if pop4 in file: 
-                    print("Found population: "+pop4,flush=True)
-                    print("Found file",flush=True)
-                    print(file,flush=True)
                     pheno_pop_gwas = file
         #Get formatted eqtl file specific to pop & phenotype
         out_eqtl = out + '/eQTL/' + pop4

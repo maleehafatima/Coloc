@@ -145,7 +145,7 @@ if args.gene_id != False:
     gene_ids = args.gene_id
     
     for pheno in phenos:
-        print(phenos,flush=True)
+
         ## Script 4
 
         #Get list of files in gwas directory

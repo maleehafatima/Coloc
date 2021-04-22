@@ -62,7 +62,7 @@ optional arguments:
 
 ```
 * User must place all GWAS summary statistic, vcf, SNP annotation, and genotype files into their respective directories and use those directory paths for the respective flags
-* The default is runningly COLOC on all genes in the chromosomes chosen. However, the user can input a list of gene IDs under the optional --gene_id flag to only run COLOC on a specific subset of genes.
+* The default is running COLOC on all genes in the chromosomes chosen. However, the user can input a list of gene IDs under the optional --gene_id flag to only run COLOC on a specific subset of genes.
 
 ### Example Code ###
 ```

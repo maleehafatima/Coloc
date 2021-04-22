@@ -43,9 +43,6 @@ chrs = args.chrs
 #Convert lists from int to str
 chrs = map(str, chrs)
 pop_size = str(pop_size)
-#Determine if user input list of genes
-if args.gene_id != False:
-    gene_ids = args.gene_id
 #Get Coloc repo working directory
 wd = os.getcwd()
 
@@ -86,8 +83,97 @@ Run Scripts
 '''
 ## Run scripts w/specified gene list
 if args.gene_id != False:
+    
+    #Get genes
+    gene_ids = args.gene_id
+
     for pheno in phenos:
-        x = 1 #random line to get rid of error for now
+        
+        print('Run ' + pop1 + ' for ' + pheno + '.')
+
+        ## Script 2
+        for chr in chrs:
+            #Get vcf file specific to chr
+            vcf_files = os.listdir(vcf)
+            for file in vcf_files:
+                if chr in file:
+                    chr_vcf = file
+            #maybe implement subprocess for parallelization
+            os.system("chmod u+x 02_make_bed.sh") #Make the script executable
+            cmd = "./02_make_bed.sh "+pop1+" "+chr_vcf+" "+out
+            os.system(cmd)
+        print('Bfiles made.')
+
+        ## Scripts 1
+        
+        #Get files in dirs
+        geno_files = os.listdir(geno)
+        snp_annot_files = os.listdir(snp_annot)
+        #Get file specific to chr
+        for chr in chrs:
+            for file in geno_files:
+                if chr in file: 
+                    chr_geno = file
+            for file in snp_annot_files:
+                if chr in file:
+                    chr_snp = file
+        #Run command
+        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
+        os.system(script1cmd)
+
+        print('Pulling SNPs completed.')
+
+        ## Script 3
+        for chr in chrs:
+            os.system("chmod u+x 03_make_LD_matrix.sh")
+            os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
+		    
+        print('LD matrices created.')
+
+
+        ## Script 4
+       
+        #Get list of files in gwas directory
+        gwas_files = os.listdir(gwas)
+        #Get gwas file specific to phenotype
+        for file in gwas_files:
+            if pheno in file:
+                pheno_gwas_file = file
+        #Run script 4 command
+        chrs_unlist = ' '.join(chrs)
+        cmd = 'Rscript 04_prep_files_coloc.R '+ gwas + '/' + pheno_gwas_file + ' ' + eqtl + ' ' + frq + ' ' + out \
+                    + ' ' + pop4 + ' ' + pop_size + ' ' + pheno + ' ' + chrs_unlist
+        os.system(cmd)
+
+        print('Input files formatted.')
+
+
+        ## Scripts 5
+        
+        #Get formatted gwas file specific to pop and phenotype
+        out_gwas = out + '/GWAS_TOPMED/' + pop4 
+        gwas_files = os.listdir(out_gwas)
+        for file in gwas_files:
+            if pheno in file:
+                if pop4 in file: 
+                    pheno_pop_gwas = file
+        #Get formatted eqtl file specific to pop & phenotype
+        out_eqtl = out + '/eQTL/' + pop4
+        eqtl_files = os.listdir(out_eqtl)
+        for file in eqtl_files:
+            if pheno in file:
+                if pop4 in file:
+                    pheno_pop_eqtl = file
+        #Get LD dir for this pop
+        pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
+        #Convert list of genes to string
+        genes_unlist = ' '.join(gene_ids)
+        #Run script 5 command
+        cmd = 'Rscript 05b_run_coloc.R' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+                    + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
+        os.system(cmd)
+
+        print('Coloc analysis finished')
 
 ## Run all genes in chromosomes
 else:

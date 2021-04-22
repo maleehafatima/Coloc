@@ -80,7 +80,7 @@ if os.path.isdir(temp_path) == False:
 #Save LD ouput dir
 ld = path + 'LD_matrix/'
 
-print('Directories created.')
+print('Directories created.', flush=True)
 
 '''
 Run Scripts
@@ -98,7 +98,7 @@ for chr in chrs:
     os.system("chmod u+x 02_make_bed.sh") #Make the script executable
     cmd = "./02_make_bed.sh "+pop1+" "+chr+" "+chr_vcf+" "+out
     os.system(cmd)
-print('Bfiles made.')
+print('Bfiles made.', flush=True)
 
 ## Scripts 1
 #Get files in dirs
@@ -110,25 +110,25 @@ chr_geno=""
 
 #Get file specific to chr
 for chr in chrs:
-    print(chr,flush=True)
+    #print(chr,flush=True)
     for file in geno_files:
-        print(file,flush=True)
+        #print(file,flush=True)
         if "chr"+chr+"." in file:
-            print("Found genotype file",flush=True)
-            print(file,flush=True)
+            #print("Found genotype file",flush=True)
+            #print(file,flush=True)
             chr_geno = geno+"/"+file
     for file in snp_annot_files:
-        print(file,flush=True)
+        #print(file,flush=True)
         if "chr"+chr+"." in file:
-            print("Found SNP annotation file",flush=True)
-            print(file,flush=True)
+            #print("Found SNP annotation file",flush=True)
+            #print(file,flush=True)
             chr_snp = snp_annot+"/"+file
     #Run command
     script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
-    print(script1cmd)
+    #print(script1cmd, flush=True)
     os.system(script1cmd)
 
-print('Pulling SNPs completed.')
+print('Pulling SNPs completed.', flush=True)
 
 ## Script 3
 for chr in chrs:
@@ -136,15 +136,21 @@ for chr in chrs:
     cmd = "./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out
     os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
 
-print('LD matrices created.')
+print('LD matrices created.', flush=True)
 
 ## Run scripts w/specified gene list
 if args.gene_id != False:
     
     #Get genes
     gene_ids = args.gene_id
+    #Convert list of genes to string
+    genes_unlist = ' '.join(gene_ids)
+
+    print('Gene id subset to run: '+genes_unlist, flush=True)
     
     for pheno in phenos:
+
+        print('Running '+ pheno + ' for '+pop1, flush=True)
 
         ## Script 4
 
@@ -160,7 +166,7 @@ if args.gene_id != False:
                     + ' ' + pop4 + ' ' + pop_size + ' ' + pheno + ' ' + chrs_unlist
         os.system(cmd)
 
-        print('Input files formatted.')
+        print('Input files formatted.', flush=True)
 
 
         ## Scripts 5
@@ -172,6 +178,7 @@ if args.gene_id != False:
             if pheno in file:
                 if pop4 in file: 
                     pheno_pop_gwas = file
+                    print('Formatted gwas file: '+pheno_pop_gwas, flush=True)
         #Get formatted eqtl file specific to pop & phenotype
         out_eqtl = out + '/eQTL/' + pop4
         eqtl_files = os.listdir(out_eqtl)
@@ -179,21 +186,22 @@ if args.gene_id != False:
             if pheno in file:
                 if pop4 in file:
                     pheno_pop_eqtl = file
+                    print('Formatted eqtl file: '+pheno_pop_eqtl, flush=True)
         #Get LD dir for this pop
         pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
-        #Convert list of genes to string
-        genes_unlist = ' '.join(gene_ids)
         #Run script 5 command
-        cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+        cmd = 'Rscript 05b_run_coloc.R ' + out_gwas + '/' + pheno_pop_gwas + ' ' + out_eqtl + '/' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
                     + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
         os.system(cmd)
 
-        print('Coloc analysis finished')
+        print('Coloc analysis finished', flush=True)
 
 ## Run all genes in chromosomes
 else:
     for pheno in phenos:
 
+        print('Running '+ pheno + ' for '+pop1, flush=True)
+
         ## Script 4
 
         #Get list of files in gwas directory
@@ -208,7 +216,7 @@ else:
                     + ' ' + pop4 + ' ' + pop_size + ' ' + pheno + ' ' + chrs_unlist
         os.system(cmd)
 
-        print('Input files formatted.')
+        print('Input files formatted.', flush=True)
 
 
         ## Scripts 5
@@ -220,6 +228,7 @@ else:
             if pheno in file:
                 if pop4 in file: 
                     pheno_pop_gwas = file
+                    print('Formatted gwas file: '+pheno_pop_gwas, flush=True)
         #Get formatted eqtl file specific to pop & phenotype
         out_eqtl = out + '/eQTL/' + pop4
         eqtl_files = os.listdir(out_eqtl)
@@ -227,14 +236,15 @@ else:
             if pheno in file:
                 if pop4 in file:
                     pheno_pop_eqtl = file
+                    print('Formatted eqtl file: '+pheno_pop_eqtl, flush=True)
         #Get LD dir for this pop
         pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
         #Run script 5 command
-        cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+        cmd = 'Rscript 05b_run_coloc.R ' + out_gwas + '/' + pheno_pop_gwas + ' ' + out_eqtl + '/' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
                     + ' ' + pop1 + ' ' + pop_size + ' ' + pheno
         os.system(cmd)
 
-        print('Coloc analysis finished')
+        print('Coloc analysis finished', flush=True)
 
 
-print('Pipeline completed running.')
+print('Pipeline completed running.', flush=True)

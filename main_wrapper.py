@@ -85,7 +85,7 @@ print('Directories created.')
 '''
 Run Scripts
 '''
-print('Run ' + pop1 + '.', flush = True)
+print('Run ' + pop1 + '.', flush=True)
 
 ## Script 2
 for chr in chrs:
@@ -235,7 +235,7 @@ else:
         #Get LD dir for this pop
         pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
         #Run script 5 command
-        cmd = 'Rscript 05b_run_coloc.R' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
+        cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
                     + ' ' + pop1 + ' ' + pop_size + ' ' + pheno
         os.system(cmd)
 

@@ -3,6 +3,14 @@
 ## Languages and Packages
 ---
 **R**
+Installing Packages:
+
+```
+if(!require("remotes"))
+   install.packages("remotes") # if necessary
+library(remotes)
+install_github("chr1swallace/coloc",build_vignettes=TRUE)
+```
 ```
 library(dplyr)
 library(reshape2)

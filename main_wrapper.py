@@ -193,9 +193,9 @@ if args.gene_id != False:
 ## Run all genes in chromosomes
 else:
     for pheno in phenos:
-        print(phenos,flush=True)
+        
         ## Script 4
-       
+
         #Get list of files in gwas directory
         gwas_files = os.listdir(gwas)
         #Get gwas file specific to phenotype
@@ -217,13 +217,8 @@ else:
         out_gwas = out + '/GWAS_TOPMED/' + pop4 
         gwas_files = os.listdir(out_gwas)
         for file in gwas_files:
-            print(file,flush=True)
             if pheno in file:
-                print("Found phenotype: "+pheno,flush=True)
                 if pop4 in file: 
-                    print("Found population: "+pop4,flush=True)
-                    print("Found file",flush=True)
-                    print(file,flush=True)
                     pheno_pop_gwas = file
         #Get formatted eqtl file specific to pop & phenotype
         out_eqtl = out + '/eQTL/' + pop4
@@ -234,9 +229,11 @@ else:
                     pheno_pop_eqtl = file
         #Get LD dir for this pop
         pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
+        #Convert list of genes to string
+        genes_unlist = ' '.join(gene_ids)
         #Run script 5 command
         cmd = 'Rscript 05b_run_coloc.R' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
-                    + ' ' + pop1 + ' ' + pop_size + ' ' + pheno
+                    + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
         os.system(cmd)
 
         print('Coloc analysis finished')

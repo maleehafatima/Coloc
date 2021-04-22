@@ -80,13 +80,14 @@ nohup python main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_in
 ## Workflow ##
 ---
 ### Scripts 1a-b ###
-These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. This step can be executed by calling script 1c, which runs script 1b for every chromosome:
+These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. The main wrapper runs script 1b for every chromosome:
 
 #### Input Files: ####
+- Bim files from script 2
 - SNP annotation file
 - Gene annotation file
 - Genotype file
-- Expression file
+- Populations
 #### Output Files: ####
 - out/LD_matrix/{pop}/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_of\_gene.txt
 

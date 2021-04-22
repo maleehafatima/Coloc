@@ -71,7 +71,7 @@ optional arguments:
 cd /homes/anovak9/Coloc
 ```
 ```
-nohup python main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz 
+nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz 
 --vcf ~/COLOC_input_data/vcfs --snp_annot ~/COLOC_input_data/snp_annot --gene_annot ~/COLOC_input_data/annotation_all_aptamers_ENSG.txt 
 --geno ~/COLOC_input_data/genotypes --frq ~/COLOC_input_data/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 
 --phenotypes BMI C_reactive HDL_cholesterol Total_cholesterol --chrs 1 2 3 &

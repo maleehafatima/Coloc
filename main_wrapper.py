@@ -229,11 +229,9 @@ else:
                     pheno_pop_eqtl = file
         #Get LD dir for this pop
         pop_ld = ld + pop1 + '/' + pop1 + '_1Mb_coords_LDMatrix'
-        #Convert list of genes to string
-        genes_unlist = ' '.join(gene_ids)
         #Run script 5 command
         cmd = 'Rscript 05b_run_coloc.R ' + pheno_pop_gwas + ' ' + pheno_pop_eqtl + ' ' + pop_ld + ' ' + out \
-                    + ' ' + pop1 + ' ' + pop_size + ' ' + pheno + ' ' + genes_unlist
+                    + ' ' + pop1 + ' ' + pop_size + ' ' + pheno
         os.system(cmd)
 
         print('Coloc analysis finished')

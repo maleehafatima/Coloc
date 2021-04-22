@@ -5,7 +5,7 @@ pop=$1 #first argument is the population abbreviation
 chr=$2 #second argument is the chromosome
 out=$3 #output directory
 
-for file in $"output/LD_matrix"/${pop}/${pop}_chr_${chr}_*
+for file in $"{out}"/LD_matrix"/${pop}/${pop}_chr_${chr}_*
 do
 	filename="${file##*/}"
 	substring=('_1Mb_of_gene.txt') #file endings

@@ -8,17 +8,12 @@ source('01_pull_snps_driving.R') # this script pulls snps within 1Mb of the tran
 argv <- commandArgs(trailingOnly = TRUE)
 chrom <- argv[1]
 snp_annot_file <- argv[2]
-snp_annot_file <- sub("chrom",chrom,snp_annot_file) #Put the chromosome # into the file path
 gene_annot_file <- argv[3] 
 genotype_file <- argv[4]
-genotype_file <- sub("chrom",chrom,genotype_file)
 expression_file <- argv[3]
 out <- argv[5]
-pop = argv[6] 
+pop <- argv[6] 
 pip <- '0.001' #what to do with pip
-
-pop_snp_annot_file <- sub("pop",pop,snp_annot_file)
-pop_genotype_file <- sub("pop",pop,genotype_file)
 
 main(snp_annot_file=snp_annot_file,
         gene_annot_file,

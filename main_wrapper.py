@@ -30,6 +30,8 @@ Store arguments
 gwas = args.gwas
 eqtl = args.eqtl
 vcf = args.vcf
+if vcf[-1] == "/":
+    vcf = vcf[:-1]
 snp_annot = args.snp_annot
 gene_annot = args.gene_annot
 geno = args.geno
@@ -49,6 +51,8 @@ wd = os.getcwd()
 '''
 Check/create necessary output directories
 ''' 
+if os.path.isdir(out) == False:
+    os.mkdir(out)
 path = args.out + '/'
 #Make main subdirectories
 dirs = ['LD_matrix', 'gene_lists', 'GWAS_TOPMED', 'eQTL', 'Coloc_output']
@@ -87,52 +91,55 @@ if args.gene_id != False:
     #Get genes
     gene_ids = args.gene_id
 
+    print('Run ' + pop1 + ' for ' + pheno + '.')
+
+    ## Script 2
+    for chr in chrs:
+        #Get vcf file specific to chr
+        vcf_files = os.listdir(vcf)
+        #print("VCF files:")
+        #print(vcf_files)
+        for file in vcf_files:
+            if chr+"." in file:
+                #print("Found vcf file for chromosome "+chr)
+                #print(file)
+                chr_vcf = file
+        #maybe implement subprocess for parallelization
+        #sys.stdout.flush()
+        os.system("chmod u+x 02_make_bed.sh") #Make the script executable
+        cmd = "./02_make_bed.sh "+pop1+" "+chr+" "+chr_vcf+" "+out
+        #print(cmd)
+        os.system(cmd)
+    print('Bfiles made.')
+
+    ## Scripts 1
+    #Get files in dirs
+    geno_files = os.listdir(geno)
+    snp_annot_files = os.listdir(snp_annot)
+    #Get file specific to chr
+    for chr in chrs:
+        for file in geno_files:
+            if "chr"+chr+"." in file:
+                chr_geno = file
+        for file in snp_annot_files:
+            if "chr"+chr+"." in file:
+                chr_snp = file
+    #Run command
+    script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
+    os.system(script1cmd)
+
+    print('Pulling SNPs completed.')
+
+    ## Script 3
+    for chr in chrs:
+        os.system("chmod u+x 03_make_LD_matrix.sh")
+        os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
+
+    print('LD matrices created.')
+
     for pheno in phenos:
-        
-        print('Run ' + pop1 + ' for ' + pheno + '.')
-
-        ## Script 2
-        for chr in chrs:
-            #Get vcf file specific to chr
-            vcf_files = os.listdir(vcf)
-            for file in vcf_files:
-                if chr in file:
-                    chr_vcf = file
-            #maybe implement subprocess for parallelization
-            os.system("chmod u+x 02_make_bed.sh") #Make the script executable
-            cmd = "./02_make_bed.sh "+pop1+" "+chr_vcf+" "+out
-            os.system(cmd)
-        print('Bfiles made.')
-
-        ## Scripts 1
-        
-        #Get files in dirs
-        geno_files = os.listdir(geno)
-        snp_annot_files = os.listdir(snp_annot)
-        #Get file specific to chr
-        for chr in chrs:
-            for file in geno_files:
-                if chr in file: 
-                    chr_geno = file
-            for file in snp_annot_files:
-                if chr in file:
-                    chr_snp = file
-        #Run command
-        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
-        os.system(script1cmd)
-
-        print('Pulling SNPs completed.')
-
-        ## Script 3
-        for chr in chrs:
-            os.system("chmod u+x 03_make_LD_matrix.sh")
-            os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
-		    
-        print('LD matrices created.')
-
-
         ## Script 4
-       
+
         #Get list of files in gwas directory
         gwas_files = os.listdir(gwas)
         #Get gwas file specific to phenotype

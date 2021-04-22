@@ -29,8 +29,8 @@ import argparse
 ## Running the pipeline ##
 ---
 ### Notes ###
--The pipeline was written to only run one population at a time
--The user must cd into the 'Coloc' repo in order to properly run the pipeline
+* The pipeline was written to only run one population at a time
+* The user must cd into the 'Coloc' repo in order to properly run the pipeline
 
 ### Flags for input files ###
 ```
@@ -61,8 +61,8 @@ optional arguments:
                         default is set to False
 
 ```
--User must place all GWAS summary statistic, vcf, SNP annotation, and genotype files into their respective directories and use those directory paths for the respective flags
--The default is runningly COLOC on all genes in the chromosomes chosen. However, the user can input a list of gene IDs under the optional --gene_id flag to only run COLOC on a specific subset of genes.
+* User must place all GWAS summary statistic, vcf, SNP annotation, and genotype files into their respective directories and use those directory paths for the respective flags
+* The default is runningly COLOC on all genes in the chromosomes chosen. However, the user can input a list of gene IDs under the optional --gene_id flag to only run COLOC on a specific subset of genes.
 
 ### Example Code ###
 ```
@@ -71,8 +71,8 @@ cd /homes/anovak9/Coloc
 ```
 nohup python main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz --vcf ~/COLOC_input_data/vcfs --snp_annot ~/COLOC_input_data/snp_annot --gene_annot ~/COLOC_input_data/annotation_all_aptamers_ENSG.txt --geno ~/COLOC_input_data/genotypes --frq ~/COLOC_input_data/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 --phenotypes BMI C-reactive HDL_cholesterol Total_cholesterol --chrs 1 2 3
 ```
--The wrapper should always be run as nohup (note beginning of command)
--In this example, the vcf files come from the population ASW and the frq and QTL files come from the population AFA and the pieline will only run chromsomes 1-3. In addition, phenotypes BMI, C-reactive, HDL_cholesterol, and Total_cholesterol will be run. 
+* The wrapper should always be run as nohup (note beginning of command)
+* In this example, the vcf files come from the population ASW and the frq and QTL files come from the population AFA and the pieline will only run chromsomes 1-3. In addition, phenotypes BMI, C-reactive, HDL_cholesterol, and Total_cholesterol will be run. 
 
 ## Workflow ##
 ---

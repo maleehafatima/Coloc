@@ -91,24 +91,23 @@ if args.gene_id != False:
     #Get genes
     gene_ids = args.gene_id
 
-    print('Run ' + pop1 + ' for ' + pheno + '.')
+    print('Run ' + pop1 + ' for ' + pheno + '.', flush = True)
 
     ## Script 2
     for chr in chrs:
         #Get vcf file specific to chr
         vcf_files = os.listdir(vcf)
-        #print("VCF files:")
-        #print(vcf_files)
+        print("VCF files:", flush = True)
+        print(vcf_files, flush = True)
         for file in vcf_files:
             if chr+"." in file:
-                #print("Found vcf file for chromosome "+chr)
-                #print(file)
+                print("Found vcf file for chromosome "+chr, flush = True)
+                print(file, flush = True)
                 chr_vcf = file
         #maybe implement subprocess for parallelization
-        #sys.stdout.flush()
         os.system("chmod u+x 02_make_bed.sh") #Make the script executable
         cmd = "./02_make_bed.sh "+pop1+" "+chr+" "+chr_vcf+" "+out
-        #print(cmd)
+        print(cmd, flush = True)
         os.system(cmd)
     print('Bfiles made.')
 
@@ -133,6 +132,7 @@ if args.gene_id != False:
     ## Script 3
     for chr in chrs:
         os.system("chmod u+x 03_make_LD_matrix.sh")
+        cmd = "./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out
         os.system("./03_make_LD_matrix.sh "+pop1+" "+chr+" "+out)
 
     print('LD matrices created.')

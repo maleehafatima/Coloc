@@ -43,7 +43,7 @@ pop_size = args.pop_size
 phenos = args.phenotypes
 chrs = args.chrs
 #Convert lists from int to str
-chrs = map(str, chrs)
+chrs = list(map(str, chrs))
 pop_size = str(pop_size)
 #Get Coloc repo working directory
 wd = os.getcwd()

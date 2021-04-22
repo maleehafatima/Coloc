@@ -145,7 +145,7 @@ if args.gene_id != False:
     gene_ids = args.gene_id
     
     for pheno in phenos:
-        print("Run "+pop1+" for "+pheno+".")
+        
         ## Script 4
 
         #Get list of files in gwas directory
@@ -193,6 +193,7 @@ if args.gene_id != False:
 ## Run all genes in chromosomes
 else:
     for pheno in phenos:
+        
         ## Script 4
        
         #Get list of files in gwas directory

@@ -123,10 +123,10 @@ for chr in chrs:
             print("Found SNP annotation file",flush=True)
             print(file,flush=True)
             chr_snp = snp_annot+"/"+file
-#Run command
-script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
-print(script1cmd)
-os.system(script1cmd)
+    #Run command
+    script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
+    print(script1cmd)
+    os.system(script1cmd)
 
 print('Pulling SNPs completed.')
 

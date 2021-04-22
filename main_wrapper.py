@@ -122,8 +122,7 @@ else:
                 if chr in file:
                     chr_snp = file
         #Run command
-        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno \
-                    + ' ' + out + ' ' + pop1
+        script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
         os.system(script1cmd)
 
         print('Pulling SNPs completed.')

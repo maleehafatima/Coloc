@@ -85,23 +85,18 @@ print('Directories created.')
 '''
 Run Scripts
 '''
-print('Run ' + pop1 + ' for ' + pheno + '.', flush = True)
+print('Run ' + pop1 + '.', flush = True)
 
 ## Script 2
 for chr in chrs:
     #Get vcf file specific to chr
     vcf_files = os.listdir(vcf)
-    print("VCF files:", flush = True)
-    print(vcf_files, flush = True)
     for file in vcf_files:
         if chr+"." in file:
-            print("Found vcf file for chromosome "+chr, flush = True)
-            print(file, flush = True)
-            chr_vcf = file
+            chr_vcf = vcf+"/"+file
     #maybe implement subprocess for parallelization
     os.system("chmod u+x 02_make_bed.sh") #Make the script executable
     cmd = "./02_make_bed.sh "+pop1+" "+chr+" "+chr_vcf+" "+out
-    print(cmd, flush = True)
     os.system(cmd)
 print('Bfiles made.')
 
@@ -109,16 +104,28 @@ print('Bfiles made.')
 #Get files in dirs
 geno_files = os.listdir(geno)
 snp_annot_files = os.listdir(snp_annot)
+
+chr_snp=""
+chr_geno=""
+
 #Get file specific to chr
 for chr in chrs:
+    print(chr,flush=True)
     for file in geno_files:
+        print(file,flush=True)
         if "chr"+chr+"." in file:
-            chr_geno = file
+            print("Found genotype file",flush=True)
+            print(file,flush=True)
+            chr_geno = geno+"/"+file
     for file in snp_annot_files:
+        print(file,flush=True)
         if "chr"+chr+"." in file:
-            chr_snp = file
+            print("Found SNP annotation file",flush=True)
+            print(file,flush=True)
+            chr_snp = snp_annot+"/"+file
 #Run command
 script1cmd = 'Rscript 01b_run_pull_snps_driving.R ' + chr + ' ' + chr_snp + ' ' + gene_annot + ' ' + chr_geno + ' ' + out + ' ' + pop1
+print(script1cmd)
 os.system(script1cmd)
 
 print('Pulling SNPs completed.')
@@ -138,6 +145,7 @@ if args.gene_id != False:
     gene_ids = args.gene_id
     
     for pheno in phenos:
+        print("Run "+pop1+" for "+pheno+".")
         ## Script 4
 
         #Get list of files in gwas directory

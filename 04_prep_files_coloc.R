@@ -73,7 +73,7 @@ if(!file.exists(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% 
         
   ## Write out & gzip formatted GWAS file
   fwrite(unique(GWAS_write), out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt", row.names = F, col.names = T, sep = "\t", quote = F, na = "NA")
-  gzip(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pops %&% "_" %&% pheno %&% ".txt", destname = out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")
+  gzip(out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt", destname = out %&% "/GWAS_TOPMED/" %&% pop %&% "/GWAS_TOPMED_" %&% pop %&% "_" %&% pheno %&% ".txt.gz")
   print("Completed with " %&% pop %&% ", for " %&% pheno %&% ".")
         
 } else{

@@ -25,7 +25,7 @@ source(paste(wd,'05_coloc.R',sep=''))
 if(length(genes) != 0){
   #RDS to save gene list
   rds<- out %&% "/gene_lists/gene_list_" %&% pop %&% "_" %&% pheno %&% ".RDS"
-  saveRDS(gene_id,rds)
+  saveRDS(genes,rds)
 }else{rds <- NULL}
 
 

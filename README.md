@@ -89,7 +89,11 @@ nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_i
 
 ### Example code running specific subset of genes ###
 ```
-nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz --vcf ~/COLOC_input_data/vcfs --snp_annot ~/COLOC_input_data/snp_annot --gene_annot ~/COLOC_input_data/annotation_all_aptamers_ENSG.txt --geno ~/COLOC_input_data/genotypes --frq ~/COLOC_input_data/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 --phenotypes BMI --chrs 1 2 3 -gene_id SL000001_ENSG00000185499.16 SL000020_ENSG00000084674.14 SL000024_ENSG00000117525.14 SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500.15 SL000051_ENSG00000132693.12 &
+nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz 
+--vcf ~/COLOC_input_data/vcfs --snp_annot ~/COLOC_input_data/snp_annot --gene_annot ~/COLOC_input_data/annotation_all_aptamers_ENSG.txt 
+--geno ~/COLOC_input_data/genotypes --frq ~/COLOC_input_data/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 
+--phenotypes BMI --chrs 1 2 3 -gene_id SL000001_ENSG00000185499.16 SL000020_ENSG00000084674.14 SL000024_ENSG00000117525.14 
+SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500.15 SL000051_ENSG00000132693.12 &
 ```
 
 
@@ -100,10 +104,10 @@ These scripts use imputed transcript levels from the eQTL population to generate
 
 #### Input Files: ####
 - Bim files from script 2
-- SNP annotation file
-- Gene annotation file
-- Genotype file
-- Populations
+- Directory of SNP annotation files
+- Exact file path of gene annotation file
+- Directory of genotype files
+- Population
 #### Output Files: ####
 - out/LD_matrix/{pop}/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_of\_gene.txt
 
@@ -114,7 +118,7 @@ chmod u+x 02_make_bed.sh
 ./02_make_bed.sh {pop} {path/to/directory/containing/population_folders_containing_dosage_files/}
 ```
 #### Input Files: ####
-- Genotype dosage files
+- Directory of genotype dosage files
 #### Output Files: ####
 - out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.bed
 - out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.bim

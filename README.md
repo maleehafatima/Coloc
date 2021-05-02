@@ -87,6 +87,12 @@ nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_i
 * The wrapper should always be run as nohup (note beginning of command)
 * In this example, the vcf files come from the population ASW and the frq and QTL files come from the population AFA and the pieline will only run chromsomes 1-3. In addition, phenotypes BMI, C_reactive, HDL_cholesterol, and Total_cholesterol will be run. 
 
+### Example code running specific subset of genes ###
+```
+nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_input_data/cis_eQTLs_AFA_WG_all_cis.txt.gz --vcf ~/COLOC_input_data/vcfs --snp_annot ~/COLOC_input_data/snp_annot --gene_annot ~/COLOC_input_data/annotation_all_aptamers_ENSG.txt --geno ~/COLOC_input_data/genotypes --frq ~/COLOC_input_data/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 --phenotypes BMI --chrs 1 2 3 -gene_id SL000001_ENSG00000185499.16 SL000020_ENSG00000084674.14 SL000024_ENSG00000117525.14 SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500.15 SL000051_ENSG00000132693.12 &
+```
+
+
 ## Workflow ##
 ---
 ### Scripts 1a-b ###

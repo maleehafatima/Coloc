@@ -36,6 +36,7 @@ import argparse
 
 ## Running the pipeline ##
 ---
+
 ### Notes ###
 * The pipeline was written to only run one population at a time
 * The user must cd into the 'Coloc' repo in order to properly run the pipeline
@@ -96,9 +97,22 @@ nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_i
 SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500.15 SL000051_ENSG00000132693.12 &
 ```
 
+## Commands to run test data ##
+---
+```
+cd /homes/anovak9/Coloc
+nohup python3 main_wrapper.py --gwas ~/Coloc/Test/GWAS_SS --eqtl ~/Coloc/Test/cis_eQTLs_AFA_WG_all_cis.txt.gz 
+--vcf ~/Coloc/Test/vcfs --snp_annot ~/Coloc/Test/snp_annot --gene_annot ~/Coloc/Test/annotation_all_aptamers_ENSG.txt 
+--geno ~/Coloc/Test/genotypes --frq ~/Coloc/Test/AFA_prot_hg38.frq --out ~/coloc_output --pop1 ASW --pop4 AFA --pop_size 183 
+--phenotypes BMI --chrs 1 &
+```
 
 ## Workflow ##
 ---
+
+### Visualizatoin ###
+![new_workflow](https://user-images.githubusercontent.com/79813488/116830969-64299400-ab72-11eb-8c11-f46eb30c6430.PNG)
+
 ### Scripts 1a-b ###
 These scripts use imputed transcript levels from the eQTL population to generate lists of significant SNPs that are within 1Mb of a predicted gene. The goal is to pull all significant cis-acting variants. The main wrapper runs script 1b for every chromosome:
 

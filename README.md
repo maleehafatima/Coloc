@@ -3,6 +3,7 @@
 ## Languages and Packages
 ---
 **R**
+
 Installing Packages:
 
 ```
@@ -24,6 +25,8 @@ library(tibble)
 **bash**
 
 **Python**
+
+Installing packages:
 ```
 import os
 import os.path
@@ -86,7 +89,7 @@ nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_i
 --phenotypes BMI C_reactive HDL_cholesterol Total_cholesterol --chrs 1 2 3 &
 ```
 * The wrapper should always be run as nohup (note beginning of command)
-* In this example, the vcf files come from the population ASW and the frq and QTL files come from the population AFA and the pieline will only run chromsomes 1-3. In addition, phenotypes BMI, C_reactive, HDL_cholesterol, and Total_cholesterol will be run. 
+* In this example, the vcf files come from the population ASW and the frq and QTL files come from the population AFA and the pipeline will only run chromsomes 1-3. In addition, phenotypes BMI, C_reactive, HDL_cholesterol, and Total_cholesterol will be run. 
 
 ### Example code running specific subset of genes ###
 ```
@@ -96,6 +99,7 @@ nohup python3 main_wrapper.py --gwas ~/COLOC_input_data/GWAS_SS --eqtl ~/COLOC_i
 --phenotypes BMI --chrs 1 2 3 -gene_id SL000001_ENSG00000185499.16 SL000020_ENSG00000084674.14 SL000024_ENSG00000117525.14 
 SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500.15 SL000051_ENSG00000132693.12 &
 ```
+* This example is similar to above except it's only running the phenotype BMI and only the genes specified after the -gene_id flag will by run by COLOC. 
 
 ## Commands to run test data ##
 ---

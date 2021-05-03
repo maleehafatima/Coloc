@@ -4,7 +4,7 @@
 ---
 **R**
 
-Installing Packages:
+Installing packages:
 
 ```
 if(!require("remotes"))

@@ -104,6 +104,7 @@ SL000027_ENSG00000073756.12 SL000048_ENSG00000115718.17 SL000049_ENSG00000184500
 ## Commands to run test data ##
 ---
 * [Link](https://drive.google.com/drive/folders/120PVBboTIxTf6gAaGe2h2hFefDPcmC2n?usp=sharing) to google drive folder with test data
+* Add the test folder to your local Coloc repo for the command to work 
 ```
 cd /homes/anovak9/Coloc
 nohup python3 main_wrapper.py --gwas ~/Coloc/Test/GWAS_SS --eqtl ~/Coloc/Test/cis_eQTLs_AFA_WG_all_cis.txt.gz 

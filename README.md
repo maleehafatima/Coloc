@@ -131,11 +131,8 @@ These scripts use imputed transcript levels from the eQTL population to generate
 - out/LD_matrix/{pop}/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_of\_gene.txt
 
 ### Script 2 ###
-This script takes in genotype dosage files in vcf file format and converts them to PLINK binary formats, .bed, .bim, and .fam. This step can be executed by calling script 2.
-```
-chmod u+x 02_make_bed.sh 
-./02_make_bed.sh {pop} {path/to/directory/containing/population_folders_containing_dosage_files/}
-```
+This script takes in genotype dosage files in vcf file format and converts them to PLINK binary formats, .bed, .bim, and .fam. These data will be used to calculate LD for the significant SNPs pulled by script 1. The main wrapper runs script 2 for every chromosome.
+
 #### Input Files: ####
 - Directory of genotype dosage files
 #### Output Files: ####
@@ -144,16 +141,11 @@ chmod u+x 02_make_bed.sh
 - out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.fam
 
 ### Script 3 ###
-This script uses the significant SNP lists produced by script 1, along with the bfiles produced by script 2, to calculate LD matrices between every significant SNP around every predicted gene. This step can be executed by calling script 3.
-```
-chmod u+x 03_make_LD_matrix.sh
-./03_make_LD_matrix.sh {pop}
-```
+This script uses the significant SNP lists produced by script 1, along with the bfiles produced by script 2, to calculate LD matrices between every significant SNP around every predicted gene. The wrapper runs script 3 for every chromosome
+
 #### Input Files: ####
-- out/LD_matrix/{pop}/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_of\_gene.txt
-- out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.bed
-- out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.bim
-- out/LD_matrix/{pop}/{pop}\_chr{chrom}\_dose.fam
+- Directory of significant SNP lists
+- Directory of bed/bim/fam files
 #### Output Files: ####
 - out/LD_matrix/{pop}/{pop}\_1Mb\_coords\_LDMatrix/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_LD.ld.gz
 - out/LD_matrix/{pop}/{pop}\_1Mb\_coords\_LDMatrix/{pop}\_chr\_{chrom}\_{gene}\_1Mb\_LD.snplist.gz
